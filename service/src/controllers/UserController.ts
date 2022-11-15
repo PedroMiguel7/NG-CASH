@@ -95,18 +95,15 @@ export class UserController {
         throw new BadRequestError("User not found");
       }
 
-      let usernameUp = username;
-
       await userRepository
         .createQueryBuilder()
-        .update(user)
-        .set({ username: usernameUp })
-        .where(`id = ${user_id}`)
+        .update({ username: username })
+        .where({ id: user_id })
         .execute();
 
-      const { password: _, ...userUpdate } = user;
+      const { password: _, ...userResponse } = user;
 
-      return res.status(200).json({ userUpdate });
+      return res.status(200).json({ userResponse });
     } catch (error: any) {
       res.status(400).json({ message: "Deu ruim" });
     }
