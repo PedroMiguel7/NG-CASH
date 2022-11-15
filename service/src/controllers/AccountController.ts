@@ -33,10 +33,10 @@ export class AccountController {
     }
   }
 
+  // preciso atualizar
   async UpdateAccount(req: Request, res: Response) {
     try {
       const { id } = req.params;
-      const { username } = req.body;
 
       const Account = await AccountRepository.findOneBy({ id: Number(id) });
 

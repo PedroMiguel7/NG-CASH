@@ -39,6 +39,12 @@ export class UserController {
   async ListUser(req: Request, res: Response) {
     try {
       const { user_id } = req.params;
+      const { id } = req.body;
+
+      if(id !== user_id){
+        throw new BadRequestError("Not authorized");
+      }
+
       const user = await userRepository.findOneBy({ id: Number(user_id) });
       if (!user) {
         throw new BadRequestError("User not found");
@@ -63,6 +69,7 @@ export class UserController {
     }
   }
 
+  // precisa atualizar
   async UpdateUser(req: Request, res: Response) {
     try {
       const { user_id } = req.params;
