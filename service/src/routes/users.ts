@@ -8,7 +8,7 @@ const routes = Router();
 routes.post("/", new LoginController().Login);
 
 routes.post("/user", new UserController().CreateUser);
-routes.get("/user", authMiddleware, new UserController().ListUser)
+routes.get("/user/:user_id", authMiddleware, new UserController().ListUser)
 routes.put("/user/:user_id", authMiddleware, new UserController().UpdateUser)
 routes.delete("/user/:user_id", authMiddleware, new UserController().DelUser);
 
