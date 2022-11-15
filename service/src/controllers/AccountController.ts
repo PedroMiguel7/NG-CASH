@@ -24,7 +24,7 @@ export class AccountController {
       const Account = await AccountRepository.findOneBy({ id: id });
 
       if (!Account) {
-        return null
+        return null;
       }
 
       return Account;
@@ -34,28 +34,23 @@ export class AccountController {
   }
 
   // preciso atualizar
-  async UpdateAccount(req: Request, res: Response) {
+  async UpdateAccount(id: number, value: number) {
     try {
-      const { id } = req.params;
-
       const Account = await AccountRepository.findOneBy({ id: Number(id) });
 
       if (!Account) {
         throw new BadRequestError("Account not found");
       }
 
-
-      await userRepository
-        .createQueryBuilder()
+      await AccountRepository.createQueryBuilder()
         .update(Account)
-        .set({})
+        .set({ balance: value })
         .where(`id = ${id}`)
         .execute();
 
-
-      return res.status(200).json({ Account });
+      return Account;
     } catch (error: any) {
-      res.status(400).json({ message: "Deu ruim" });
+      return { message: "Deu ruim" };
     }
   }
 

@@ -10,10 +10,21 @@ export class UserController {
     try {
       const { username, password } = req.body;
 
+      if (username.length <= 3) {
+        throw new BadRequestError(
+          "Enter a username with at least 3 characters"
+        );
+      }
+      if (password.length <= 8) {
+        throw new BadRequestError(
+          "Enter a password with at least 8 characters"
+        );
+      }
+
       const userExist = await userRepository.findOneBy({ username });
 
       if (userExist) {
-        throw new BadRequestError("Email already exists");
+        throw new BadRequestError("username already exists");
       }
 
       const criptopass = await bcrypt.hash(password, 10);
@@ -41,9 +52,9 @@ export class UserController {
       const { user_id } = req.params;
       const { id } = req.body;
 
-      if(id !== user_id){
-        throw new BadRequestError("Not authorized");
-      }
+      // if (id !== user_id) {
+      //   return { message: "Deu ruim" };
+      // }
 
       const user = await userRepository.findOneBy({ id: Number(user_id) });
       if (!user) {
@@ -58,8 +69,11 @@ export class UserController {
       let { password: _, ...USER } = user;
 
       if (account) {
-
-        const USERformat = {id: USER.id, username: USER.username, account: account}
+        const USERformat = {
+          id: USER.id,
+          username: USER.username,
+          account: account,
+        };
         return res.status(201).json(USERformat);
       }
 
