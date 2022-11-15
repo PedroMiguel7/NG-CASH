@@ -20,7 +20,7 @@ export class LoginController {
       const token = jwt.sign(
         { id: user.id, username: user.username },
         process.env.JWT_PASS ?? "",
-        { expiresIn: "8h" }
+        { expiresIn: "24h" }
       );
 
       return res.status(200).json({ token });

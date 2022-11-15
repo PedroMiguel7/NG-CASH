@@ -11,6 +11,6 @@ export class Users {
   @Column({ type: "text" })
   password: string;
 
-  @Column({ type: "int" })
+  @Column({ type: "int", nullable: true})
   accountId: number;
 }

@@ -3,7 +3,6 @@ import { userRepository } from "../repositories/userRepository";
 import { Response } from "express";
 import { Request } from "express";
 import bcrypt from "bcrypt";
-import { Console } from "console";
 
 export class UserController {
   async CreateUser(req: Request, res: Response) {
@@ -23,7 +22,10 @@ export class UserController {
         password: criptopass,
       });
 
+      // criar conta aqui
+
       await userRepository.save(newUser);
+
 
       const { password: _, ...user } = newUser;
 
@@ -35,19 +37,16 @@ export class UserController {
 
   async ListUser(req: Request, res: Response) {
     try {
-      const users = await userRepository.find();
+      const { user_id } = req.params;
+      const user = await userRepository.findOneBy({ id: Number(user_id) });
 
-      if (!users) {
-        throw new BadRequestError("Users not found");
+      if (!user) {
+        throw new BadRequestError("User not found");
       }
 
-      var USERS = [];
-      for (let i = 0; i < users.length; i++) {
-        let { password: _, ...usersList } = users[i];
-        USERS.push(usersList);
-      }
-
-      return res.status(201).json(USERS);
+      let { password: _, ...USER } = user;
+      
+      return res.status(201).json(USER);
     } catch (error: any) {
       res.status(400).json({ message: "Deu ruim" });
     }
@@ -57,16 +56,12 @@ export class UserController {
     try {
       const { user_id } = req.params;
       const { username } = req.body;
-      console.log("🚀 ~ file: UserController.ts ~ line 65 ~ UserController ~ UpdateUser ~ req.body", req.body)
-      console.log("🚀 ~ file: UserController.ts ~ line 65 ~ UserController ~ UpdateUser ~ username", username)
-
 
       const user = await userRepository.findOneBy({ id: Number(user_id) });
 
       if (!user) {
         throw new BadRequestError("User not found");
       }
-
       
       let usernameUp = username
       
