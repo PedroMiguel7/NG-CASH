@@ -45,7 +45,7 @@ export class AccountController {
       await AccountRepository.createQueryBuilder()
         .update(Account)
         .set({ balance: value })
-        .where(`id = ${id}`)
+        .where({id: id})
         .execute();
 
       return Account;

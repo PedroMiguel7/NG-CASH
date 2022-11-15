@@ -83,7 +83,7 @@ export class UserController {
     }
   }
 
-  // precisa atualizar
+  // precisa atualizar o retorno
   async UpdateUser(req: Request, res: Response) {
     try {
       const { user_id } = req.params;
