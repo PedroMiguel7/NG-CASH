@@ -1,9 +1,9 @@
 import { AccountController } from "./AccountController";
-import { userRepository } from "../repositories/userRepository";
+import { userRepository } from "../domain/repositories/userRepository";
 import { BadRequestError } from "../helpers/api-erros";
 import { Response } from "express";
 import { Request } from "express";
-import { TransactionRepository } from "../repositories/TransactionRespository";
+import { TransactionRepository } from "../domain/repositories/TransactionRespository";
 
 export class TransactionController {
   async CreateTransaction(req: Request, res: Response) {

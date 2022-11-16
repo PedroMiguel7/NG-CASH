@@ -1,4 +1,4 @@
-import { userRepository } from "./../repositories/userRepository";
+import { userRepository } from "./../domain/repositories/userRepository";
 import { Response } from "express";
 import { Request } from "express";
 import bcrypt from "bcrypt";
