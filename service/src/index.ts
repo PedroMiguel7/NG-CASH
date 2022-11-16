@@ -1,4 +1,4 @@
-import { AppDataSource } from "./data/data-source";
+import { AppDataSource } from "./data-source";
 import express from "express";
 import routesuser from "./routes/users";
 import { errorMiddleware } from "./middlewares/error";
@@ -11,17 +11,20 @@ import routesaccount from "./routes/accounts";
 // import swaggerOptions from "./swagger/swagger";
 // const swaggerDocs = swaggerJsDoc(swaggerOptions);
 
-export const app = express();
 AppDataSource.initialize().then(() => {
+  const app = express();
+
   app.use(express.json());
 
   app.use(cors());
-
+  
   app.use(routesuser);
   app.use(routestransaction);
   app.use(routesaccount);
-
+  
   // app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs));
 
   app.use(errorMiddleware);
+
+  return app.listen(process.env.port);
 });
