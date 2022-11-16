@@ -92,32 +92,6 @@ export class TransactionController {
     }
   }
 
-  // precisa atualizar o retorno
-  async UpdateTransaction(req: Request, res: Response) {
-    try {
-      const { id } = req.params;
-      const { username } = req.body;
-
-      const Transaction = await TransactionRepository.findOneBy({
-        id: Number(id),
-      });
-
-      if (!Transaction) {
-        throw new BadRequestError("Transaction not found");
-      }
-
-      //   await TransactionRepository
-      //     .createQueryBuilder()
-      //     .update({ username: username })
-      //     .where({ id: id })
-      //     .execute();
-
-      return res.status(200).json({ Transaction });
-    } catch (error: any) {
-      res.status(400).json({ message: "Deu ruim" });
-    }
-  }
-
   async DelTransaction(req: Request, res: Response) {
     try {
       const { id } = req.params;
