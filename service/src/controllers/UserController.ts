@@ -9,19 +9,19 @@ export class UserController {
   async CreateUser(req: Request, res: Response) {
     try {
       const { username, password } = req.body;
-      const pass = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).{8,14}$/
+      const verifypass = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).{8,14}$/;
 
       if (username.length <= 3) {
         throw new BadRequestError(
           "Enter a username with at least 3 characters"
         );
       }
-      if (!pass.test(password)) {
+      if (!verifypass.test(password)) {
         throw new BadRequestError(
           "Enter a password with at least 8 characters, one uppercase letter and one special character"
         );
       }
-      
+
       const userExist = await userRepository.findOneBy({ username });
 
       if (userExist) {
