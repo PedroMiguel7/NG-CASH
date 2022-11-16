@@ -58,23 +58,35 @@ export class TransactionController {
 
   async ListTransaction(req: Request, res: Response) {
     try {
-      const { id, order } = req.params;
+      const { id } = req.params;
+      const { filter, order, desc } = req.query;
 
-      // if (id !== user_id) {
-      //   return { message: "Deu ruim" };
-      // }
+      let orderParams: any = {}
+      orderParams[String(order)] = desc === 'false' ? "ASC": "DESC"
 
-      const Transactions1 = await TransactionRepository.findBy({
-        debitedAccountId: Number(id),
+      const Transactionsout = await TransactionRepository.find({
+        where: {
+          debitedAccountId: Number(id)
+        }, order: orderParams
       });
-      const Transactions2 = await TransactionRepository.findBy({
-        creditedAccountId: Number(id),
+      const Transactionsin = await TransactionRepository.find({
+        where: {
+          creditedAccountId: Number(id)
+        }, order: orderParams
       });
-      if (!Transactions1) {
+      if (!Transactionsout) {
+        throw new BadRequestError("Transactions not found");
+      }
+      if (!Transactionsin) {
         throw new BadRequestError("Transactions not found");
       }
 
-      return res.status(201).json([Transactions1, Transactions2]);
+      if (filter === "cash-out") return res.status(200).json(Transactionsout);
+      else if (filter === "cash-in") return res.status(200).json(Transactionsin);
+      else return res.status(200).json(
+        {cashOut: Transactionsout, cashIn: Transactionsin}
+        );
+
     } catch (error: any) {
       res.status(400).json({ message: "Deu ruim" });
     }
