@@ -46,7 +46,6 @@ export class TransactionController {
         debitedAccountId: accountIdOUT?.id,
         creditedAccountId: accountIdIN?.id,
         value,
-        createdAt: "2020-06-03T10:55:17Z",
       });
 
       await TransactionRepository.save(newTransaction);
