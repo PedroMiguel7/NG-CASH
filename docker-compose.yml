@@ -13,7 +13,7 @@ services:
       - ./postgresql/data:/var/lib/postgresql/data
       - ./docker_postgres_init.sql:/docker-entrypoint-initdb.d/docker_postgres_init.sql
   service:
-    container_name: prac_server
+    container_name: server
     build:
       context: ./service
       dockerfile: Dockerfile.dev  # on move to prod, update this
@@ -25,7 +25,7 @@ services:
     ports:
       - "3000:3000"
   ui:
-    container_name: prac_ui
+    container_name: ui
     build:
       context: ./ui
       dockerfile: Dockerfile.dev  # on move to prod, update this
@@ -37,7 +37,7 @@ services:
     ports:
       - "8080:8080"
   pgadmin-compose:
-    container_name: prac_db_ui
+    container_name: trybe_db_ui
     image: dpage/pgadmin4
     environment:
       PGADMIN_DEFAULT_EMAIL: "pgadmin@megacorp.com"
