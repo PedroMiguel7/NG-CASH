@@ -1,8 +1,10 @@
 import { AppDataSource } from "./data-source";
 import express from "express";
-import routes from "./routes/users";
+import routesuser from "./routes/users";
 import { errorMiddleware } from "./middlewares/error";
 import cors from "cors";
+import routestransaction from "./routes/transaction";
+import routesaccount from "./routes/accounts";
 
 // import swaggerJsDoc from "swagger-jsdoc";
 // import swaggerUI from "swagger-ui-express";
@@ -16,7 +18,10 @@ AppDataSource.initialize().then(() => {
 
   app.use(cors());
   
-  app.use(routes);
+  app.use(routesuser);
+  app.use(routestransaction);
+  app.use(routesaccount);
+  
   // app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs));
 
   app.use(errorMiddleware);
