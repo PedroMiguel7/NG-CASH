@@ -56,4 +56,17 @@ describe("Testes de transferências", () => {
 
     expect(response.status).toBe(200);
   });
+
+  // Obtendo dados das transações de um usuário com filtros
+  it("should get filtered transactions a user", async () => {
+    const token = await login();
+
+    const response = await request(server)
+      .get(
+        `/transaction/${user_id_A}?filter=cash-out&order=createdAt&desc=false`
+      )
+      .set("Authorization", `bearer ${token}`);
+
+    expect(response.status).toBe(200);
+  });
 });
