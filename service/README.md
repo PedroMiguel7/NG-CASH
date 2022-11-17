@@ -194,5 +194,7 @@ obs: [Filters]() e ordinances were made with query parameters passed in the rout
   - id + true: `/Transaction/1?order=id&desc=true`, returns user transfers in descending order of id.
   - value + false: `/Transaction/1?order=value&desc=false`, returns user transfers in ascending order of value.
   - value + true: `/Transaction/1?order=value&desc=true`, returns user transfers in descending order of value.
+  - date + false: `/Transaction/1?order=date&desc=false`, returns user transfers in ascending order of date.
+  - date + true: `/Transaction/1?order=date&desc=true`, returns user transfers in descending order of date.
 
-obs: any desired field placed in the [order](#order) will be filtered
+obs: any desired field placed in the [order](#order) will be filtered.
