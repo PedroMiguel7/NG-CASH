@@ -17,14 +17,17 @@ AppDataSource.initialize().then(() => {
   app.use(express.json());
 
   app.use(cors());
-  
+
   app.use(routesuser);
   app.use(routestransaction);
   app.use(routesaccount);
-  
-  // app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs));
 
+  // app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs));
   app.use(errorMiddleware);
 
-  return app.listen(process.env.port);
+  return app.listen(process.env.port || 8000);
 });
+
+const app = express();
+app.use(express.json());
+export const server = app.listen(8000);
