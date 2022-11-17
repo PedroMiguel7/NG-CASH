@@ -11,7 +11,17 @@
   <li><a href="https://github.com/PedroMiguel7">Pedro Miguel</a></li>
 </ul>
 
-# About the System
+## Index
+
+- [About-the-System](#about-the-system)
+- [Progress of the project](#progress)
+- [Functionalities](#functionalities)
+- [Routes](#routes)
+- [User](#user)
+- [Account](#account)
+- [Transaction](#transaction)
+
+## About-the-System
 
 - Application whose objective is to enable NG users to be able to carry out internal transfers between themselves.
 
@@ -29,12 +39,27 @@
 | Transfer between users                        |   ✔️   |
 | using SGBD (PostgreSQL) |   ✔️   |
 
-# Relationship of the Elements
+## Relationship of the Elements
 
 <img src="https://ngcash.notion.site/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F65a8d6ca-b491-4d27-a26e-2d4bcdaed34a%2Fdigram.png?table=block&id=431ddb96-828d-4bd5-b4a7-a8814683b66d&spaceId=6f9b2303-1422-45c0-a306-a5a53110fd01&width=2000&userId=&cache=v2" />
 
 
 ## ROUTES
+
+
+## LOGIN
+| POST      |
+| --------- |
+| /login/|
+
+`/login/` The _LOGIN_ function, if the user exists, returns the token valid for 24h:
+
+```json
+{
+  "username": "adm",
+  "password": "Administr@do2"
+}
+```
 
 ### USER
 
@@ -42,11 +67,11 @@
 | ------------- | --------- | ----------------------- | ------------- |
 | /user/:id/    | /user/    | /user/:id/              | /user/:id/ |
 
-`/user/` A função de _GET_ geral retorna os dados básicos do user:
+`/user/` The _GET_ function returns basic user data:
 
 ```json
 {
-  "id": 1,sz
+  "id": 1,
   "username": "adm",
   "Account": {
     "id": 1,
