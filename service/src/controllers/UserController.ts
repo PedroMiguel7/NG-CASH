@@ -51,8 +51,7 @@ export class UserController {
   async ListUser(req: Request, res: Response) {
     try {
       const { user_id } = req.params;
-      const { id } = req.body;
-
+      // const { id } = req.body;
       // if (id !== user_id) {
       //   return { message: "Deu ruim" };
       // }
@@ -118,7 +117,10 @@ export class UserController {
       if (!user) {
         throw new BadRequestError("User not found");
       }
+
       userRepository.delete(user_id);
+
+      const accountId = await new AccountController().DelAccount(user.accountId);
 
       return res.status(200).json({ message: "sucess delete" });
     } catch (error: any) {

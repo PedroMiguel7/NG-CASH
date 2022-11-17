@@ -54,9 +54,8 @@ export class AccountController {
     }
   }
 
-  async DelAccount(req: Request, res: Response) {
+  async DelAccount(id: number) {
     try {
-      const { id } = req.params;
       const Account = await userRepository.findOneBy({ id: Number(id) });
 
       if (!Account) {
@@ -64,9 +63,9 @@ export class AccountController {
       }
       userRepository.delete(id);
 
-      return res.status(200).json({ message: "sucess delete" });
+      return ({ message: "sucess delete" });
     } catch (error: any) {
-      res.status(400).json({ message: "Deu ruim" });
+      ({ message: "Deu ruim" });
     }
   }
 }
