@@ -5,7 +5,7 @@ import { authMiddleware } from "../middlewares/authMiddleware";
 
 const routesuser = Router();
 
-routesuser.post("/", new LoginController().Login);
+routesuser.post("/login", new LoginController().Login);
 
 routesuser.post("/user", new UserController().CreateUser);
 routesuser.get("/user/:user_id", authMiddleware, new UserController().ListUser)

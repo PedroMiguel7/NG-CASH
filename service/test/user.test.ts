@@ -4,7 +4,7 @@ const uuid = require("uuid").v4;
 
 let user_id = 0;
 const login = async () => {
-  const response = await request(server).post("/").send({
+  const response = await request(server).post("/login").send({
     email: "admin10",
     senha: "ad@Aad2a",
   });

@@ -13,7 +13,7 @@ const login = async () => {
   user_id_A = response.body.data.id;
 
   const responselogin = await request(server)
-    .post("/")
+    .post("/login")
     .send({
       email: `${user.username}`,
       senha: `${user.password}`,

@@ -14,7 +14,7 @@ describe("Testes de Login", () => {
     const response = await request(server).post("/user").send(user);
     expect(response.status).toBe(201);
 
-    const login = await request(server).post("/").send(user);
+    const login = await request(server).post("/login").send(user);
     expect(login.status).toBe(200);
     expect(login.body.auth).toBe(true);
   });
@@ -30,7 +30,7 @@ describe("Testes de Login", () => {
     const response = await request(server).post("/user").send(user);
     expect(response.status).toBe(201);
 
-    const login = await request(server).post("/").send({
+    const login = await request(server).post("/login").send({
       username: user.username,
       password: uuid(),
     });
@@ -45,7 +45,7 @@ describe("Testes de Login", () => {
       password: uuid(),
     };
 
-    const login = await request(server).post("/").send(user);
+    const login = await request(server).post("/login").send(user);
     expect(login.status).toBe(400);
     expect(login.body.auth).toBe(false);
   });

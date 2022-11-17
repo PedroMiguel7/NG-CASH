@@ -1,7 +1,5 @@
 import { userRepository } from "../domain/repositories/userRepository";
 import { BadRequestError } from "../helpers/api-erros";
-import { Response } from "express";
-import { Request } from "express";
 import { AccountRepository } from "../domain/repositories/AccountRepository";
 
 export class AccountController {

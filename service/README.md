@@ -32,3 +32,25 @@
 # Relationship of the Elements
 
 <img src="https://ngcash.notion.site/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F65a8d6ca-b491-4d27-a26e-2d4bcdaed34a%2Fdigram.png?table=block&id=431ddb96-828d-4bd5-b4a7-a8814683b66d&spaceId=6f9b2303-1422-45c0-a306-a5a53110fd01&width=2000&userId=&cache=v2" />
+
+
+## ROUTES
+
+### USER
+
+| GET           | POST      | PUT                     | DELETE        |
+| ------------- | --------- | ----------------------- | ------------- |
+| /user/:id/    | /user/    | /user/:id/              | /user/:id/ |
+
+`/user/` A função de _GET_ geral retorna os dados básicos do user:
+
+```json
+{
+  "id": 1,sz
+  "username": "adm",
+  "Account": {
+    "id": 1,
+    "balance": 100,
+  },
+}
+```
