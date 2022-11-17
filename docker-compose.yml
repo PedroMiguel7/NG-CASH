@@ -1,7 +1,7 @@
 version: "3"
 services:
   postgres:
-    container_name: prac_db
+    container_name: trybe_db
     image: postgres:12.1
     ports:
       - "5432:5432"
@@ -36,13 +36,3 @@ services:
       - ./ui/.env:/app/.env:ro
     ports:
       - "8080:8080"
-  pgadmin-compose:
-    container_name: trybe_db_ui
-    image: dpage/pgadmin4
-    environment:
-      PGADMIN_DEFAULT_EMAIL: "pgadmin@megacorp.com"
-      PGADMIN_DEFAULT_PASSWORD: "s3kr1t_p455w0rd"
-    ports:
-      - "16543:80"
-    depends_on:
-      - postgres
