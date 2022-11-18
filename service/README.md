@@ -1,7 +1,7 @@
 <div align="center" display="flex">
   <img height="100px" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original-wordmark.svg" />
   <img height="70px" src='https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Postgresql_elephant.svg/1200px-Postgresql_elephant.svg.png'>
-  <img height="70px" src='https://avatars.githubusercontent.com/u/53864671?v=4'>
+  <img height="90px" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg"/>
   <h1 align="center">API with NodeJs (Typescript), TypeORM and PostgreSQL. Tests with Jest</h1>
 </div>
 
@@ -206,4 +206,4 @@ obs: [Filters]() e ordinances were made with query parameters passed in the rout
 - [date](#date) + false: `/Transaction/1?order=date&desc=false`, returns user transfers in ascending order of date.
 - [date](#date) + true: `/Transaction/1?order=date&desc=true`, returns user transfers in descending order of date.
 
-obs: any desired field placed in the [order](#order) will be filtered.
+obs: any desired field placed in the [order](#order) will be filtered, filters and sorting can be added in the same route.
