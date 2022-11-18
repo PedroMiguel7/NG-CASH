@@ -9,7 +9,7 @@ export class UserController {
   async CreateUser(req: Request, res: Response) {
     try {
       const { username, password } = req.body;
-      const verifypass = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).{8,14}$/;
+      const verifypass = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,14}$/;
 
       if (username.length <= 3) {
         throw new BadRequestError(

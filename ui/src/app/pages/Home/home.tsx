@@ -1,3 +1,8 @@
-export default function Home(props: any) {
-  return <>Home</>;
+export default function Home(Sidebar: any) {
+  return (
+    <>
+      <div>Home</div>
+      <div>{Sidebar}</div>
+    </>
+  );
 }
