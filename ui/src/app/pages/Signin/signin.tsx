@@ -1,13 +1,7 @@
-import React from 'react';
+import styled from 'styled-components';
 
-import { Container } from './styles';
-
-const Signin: React.FC = () => {
-  return (
-    <Container>
-      
-    </Container>
-  );
+function Signin() {
+  return <>Signin</>
 }
 
 export default Signin;

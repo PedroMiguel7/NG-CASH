@@ -1,9 +1,5 @@
-import React from 'react';
-
-import { Container } from './styles';
-
-const Sidebar: React.FC = () => {
-  return <div />;
+function SideBar(props: any) {
+  return <>Sidebar</>;
 }
 
-export default Sidebar;
+export default SideBar;
