@@ -1,50 +1,40 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { Home } from "../pages/Home/home";
-import { Signin } from "../pages/Signin/signin";
+import Home from "../pages/Home/home";
+import Signin  from "../pages/Signin/signin";
+import Signup from "../pages/Signup/signup";
+import { BrowserRouter, Route, Routes} from "react-router-dom";
+// import { useJwt } from "react-jwt";
 
-import { useJwt } from "react-jwt";
-import { ReactChild, ReactFragment, ReactPortal } from "react";
-import { Signup } from "../pages/Signup/signup";
 
-const Private = (Item: JSX.IntrinsicAttributes) => {
-  const token = localStorage.getItem("token");
-//   const { decodedToken, isExpired, reEvaluateToken } = useJwt(token);
-//   const userId = decodedToken?.sum;
-//   const userName = decodedToken?.name;
-//   const userType = decodedToken?.tipo;
+const Private = (props: any) => {
+  const token = localStorage.getItem("token")
+    ? localStorage.getItem("token")
+    : "token";
+  // const { decodedToken, isExpired, reEvaluateToken } = useJwt(token);
+  // const userId = decodedToken?.id;
+  // const userName = decodedToken?.username;
 
-  //console.log(decodedToken)
-  //console.log(userType)
+  // console.log(decodedToken)
 
-//   const updateToken = () => {
-//     const newToken = "A new JWT";
-//     reEvaluateToken(newToken); // decodedToken and isExpired will be updated
-//   };
+  // const updateToken = () => {
+  //   const newToken = "A new JWT";
+  //   reEvaluateToken(newToken); // decodedToken and isExpired will be updated
+  // };
 
   if (token !== null) {
-    return Item;
+    return props;
   } else {
-    return Signin;
+    return Signin
   }
 };
 
 export const Rout = (props: {
-  SideBar:
-    | boolean
-    | ReactChild
-    | ReactFragment
-    | ReactPortal
-    | null
-    | undefined;
+  SideBar: any;
 }) => (
   <BrowserRouter>
-    <div className="GeneralContainer d-flex row">
-      {props.SideBar}
       <Routes>
-        {/* <Route exect path="/" element={Signin} />
-        <Route exect path="/signup" element={Signup} />
-        <Route exect path="/home" element={<Private Item={Home} />} /> */}
+        <Route path="/" element={Signin()} />
+        <Route path="/signup" element={Signup()} />
+        <Route path="/home" element={Home(props.SideBar)} />
       </Routes>
-    </div>
   </BrowserRouter>
 );

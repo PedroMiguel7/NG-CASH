@@ -46,7 +46,7 @@
 
 ## ROUTES
 
-- except in the login route and registration of a create new user, ALL other routes can only be accessed with the TOKEN received from LOGIN.
+- ALL other routes can only be accessed with the TOKEN received from LOGIN, except in the login route and registration of a create new user.
   <br></br>
 
 ## LOGIN
