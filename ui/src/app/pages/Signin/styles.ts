@@ -9,5 +9,3 @@ export const Twobuttons = styled.div`
 export const P = styled.div`
   color: white;
 `;
-
-

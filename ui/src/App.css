@@ -1,5 +1,13 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
+
+/* .Fundo {
+  width: 100vw;
+  height: 100vh;
+  background: url("./assets/imgs/fundo_animado/fundo.png");
+  background-size: cover;
+  position: relative;
+} */

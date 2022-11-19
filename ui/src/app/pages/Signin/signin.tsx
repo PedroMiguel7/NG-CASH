@@ -83,94 +83,98 @@ function Signin() {
   };
 
   return (
-    <Box sx={style}>
-      <div className="d-flex align-items-center justify-content-between mb-4">
-        <div className="OcuparEspaco"></div>
-        <div className="ClearRoundedIcon order-2" />
-        <Typography
-          id="modal-modal-title"
-          variant="h6"
-          component="h2"
-          className="text-center order-1"
-        >
-          <P>LOG<span style={{ color: "var(--corBotao)" }}>IN</span></P>
-        </Typography>
-      </div>
+    <div className="Fundo">
+      <Box sx={style}>
+        <div className="d-flex align-items-center justify-content-between mb-4">
+          <div className="OcuparEspaco"></div>
+          <div className="ClearRoundedIcon order-2" />
+          <Typography
+            id="modal-modal-title"
+            variant="h6"
+            component="h2"
+            className="text-center order-1"
+          >
+            <P>
+              LOG<span style={{ color: "var(--corBotao)" }}>IN</span>
+            </P>
+          </Typography>
+        </div>
 
-      <form>  
-        <CssTextField
-          required
-          id="username"
-          name="username"
-          label="username"
-          value={username}
-          onChange={(e: any) => [setUsername(e.target.value), setError("")]}
-          variant="outlined"
-          margin="dense"
-          fullWidth
-          className="textField"
-          type="text"
-        />
-        <CssTextField
-          required
-          id="password"
-          name="password"
-          label="password"
-          value={password}
-          onChange={(e: any) => [setPassword(e.target.value), setError("")]}
-          variant="outlined"
-          margin="dense"
-          fullWidth
-          className="textField"
-          type={showPassword ? "text" : "password"}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="start">
-                <IconButton
-                  aria-label="toggle password visibility"
-                  onClick={handleClickShowPassword}
-                  edge="end"
-                >
-                  {showPassword ? <VisibilityOff /> : <Visibility />}
-                </IconButton>
-              </InputAdornment>
-            ),
-          }}
-        />
-        <Twobuttons>
-          <Button
-            style={{
-              color: "#F4F5FA",
-              width: "45%",
-              background: "var(--corBotao)",
-              textTransform: "capitalize",
-              boxShadow: "none",
+        <form>
+          <CssTextField
+            required
+            id="username"
+            name="username"
+            label="username"
+            value={username}
+            onChange={(e: any) => [setUsername(e.target.value), setError("")]}
+            variant="outlined"
+            margin="dense"
+            fullWidth
+            className="textField"
+            type="text"
+          />
+          <CssTextField
+            required
+            id="password"
+            name="password"
+            label="password"
+            value={password}
+            onChange={(e: any) => [setPassword(e.target.value), setError("")]}
+            variant="outlined"
+            margin="dense"
+            fullWidth
+            className="textField"
+            type={showPassword ? "text" : "password"}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="start">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleClickShowPassword}
+                    edge="end"
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              ),
             }}
-            id="button"
-            variant="contained"
-            type="submit"
-            onClick={(e: any) => Logar(e)}
-          >
-            LOGIN
-          </Button>
-          <Button
-            style={{
-              color: "#F4F5FA",
-              background: "var(--corBotao)",
-              textTransform: "capitalize",
-              width: "45%",
-              boxShadow: "none",
-            }}
-            id="button"
-            variant="contained"
-            type="submit"
-            onClick={(e: any) => (window.location.href = "/signup")}
-          >
-            SIGNUP
-          </Button>
-        </Twobuttons>
-      </form>
-    </Box>
+          />
+          <Twobuttons>
+            <Button
+              style={{
+                color: "#F4F5FA",
+                width: "45%",
+                background: "var(--corBotao)",
+                textTransform: "capitalize",
+                boxShadow: "none",
+              }}
+              id="button"
+              variant="contained"
+              type="submit"
+              onClick={(e: any) => Logar(e)}
+            >
+              LOGIN
+            </Button>
+            <Button
+              style={{
+                color: "#F4F5FA",
+                background: "var(--corBotao)",
+                textTransform: "capitalize",
+                width: "45%",
+                boxShadow: "none",
+              }}
+              id="button"
+              variant="contained"
+              type="submit"
+              onClick={() => (window.location.href = "/signup")}
+            >
+              SIGNUP
+            </Button>
+          </Twobuttons>
+        </form>
+      </Box>
+    </div>
   );
 }
 
