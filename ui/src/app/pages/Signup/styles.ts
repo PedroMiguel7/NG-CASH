@@ -1,10 +1,10 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
-export const Container = styled.div`
-  
+export const ButtonSignup = styled.div`
+  display: flex;
+  margin-top: 5px;
 `;
 
 export const P = styled.div`
   color: white;
 `;
-

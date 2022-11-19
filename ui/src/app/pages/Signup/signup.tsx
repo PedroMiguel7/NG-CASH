@@ -9,7 +9,7 @@ import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import { P } from "./styles";
+import { ButtonSignup, P } from "./styles";
 
 const CssTextField = styled(TextField)({
   "& .MuiOutlinedInput-root": {
@@ -106,7 +106,9 @@ export default function Signup() {
           component="h2"
           className="text-center order-1"
         >
-           <P>SIG<span style={{ color: "var(--corBotao)" }}>NUP</span></P>
+          <P>
+            SIG<span style={{ color: "var(--corBotao)" }}>NUP</span>
+          </P>
         </Typography>
       </div>
 
@@ -156,7 +158,10 @@ export default function Signup() {
           name="password"
           label="Confirm your password"
           value={confirmpassword}
-          onChange={(e: any) => [setConfirmpassword(e.target.value), setError("")]}
+          onChange={(e: any) => [
+            setConfirmpassword(e.target.value),
+            setError(""),
+          ]}
           variant="outlined"
           margin="dense"
           fullWidth
@@ -176,7 +181,7 @@ export default function Signup() {
             ),
           }}
         />
-        <div className="d-flex justify-content-space-between mt-5">
+        <ButtonSignup>
           <Button
             style={{
               color: "#F4F5FA",
@@ -191,7 +196,7 @@ export default function Signup() {
           >
             CREATE ACCOUNT
           </Button>
-        </div>
+        </ButtonSignup>
       </form>
     </Box>
   );
