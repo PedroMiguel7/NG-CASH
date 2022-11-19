@@ -9,29 +9,31 @@ import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import { P, Twobuttons } from "./styles";
+import { Twobuttons } from "./styles";
+import logowhite from "../../../assets/svgs/logo_white.svg";
+import logo_cao from "../../../assets/svgs/cao.svg";
 
 const CssTextField = styled(TextField)({
   "& .MuiOutlinedInput-root": {
-    color: "#F4F5FA",
-    svg: { color: "#F4F5FA" },
+    color: "black",
+    svg: { color: "black" },
     "&.Mui-focused": {
-      borderColor: "#F4F5FA",
+      borderColor: "black",
       svg: { color: "var(--corBotao)" },
     },
     "& fieldset": {
-      borderColor: "#F4F5FA",
+      borderColor: "black",
       borderRadius: 5,
     },
     "&:hover fieldset": {
-      borderColor: "#C2C3C6",
+      borderColor: "black",
     },
     "&.Mui-focused fieldset": {
       borderColor: "var(--corBotao)",
     },
   },
   ".MuiInputLabel-outlined": {
-    color: "#F4F5FA",
+    color: "black",
     "&.Mui-focused": {
       color: "var(--corBotao)",
     },
@@ -41,14 +43,15 @@ const CssTextField = styled(TextField)({
 const style = {
   position: "absolute",
   top: "50%",
-  left: "50%",
+  left: "25%",
   transform: "translate(-50%, -50%)",
-  bgcolor: "#21222D",
+  bgcolor: "#FCFCFC",
   borderRadius: 2,
   boxShadow: 24,
   p: 5,
   minWidth: "400px",
   width: "25vw",
+  height: "80vh",
 };
 
 function Signin() {
@@ -85,6 +88,7 @@ function Signin() {
   return (
     <div className="Fundo">
       <Box sx={style}>
+        <img src={logowhite}/>
         <div className="d-flex align-items-center justify-content-between mb-4">
           <div className="OcuparEspaco"></div>
           <div className="ClearRoundedIcon order-2" />
@@ -94,9 +98,7 @@ function Signin() {
             component="h2"
             className="text-center order-1"
           >
-            <P>
-              LOG<span style={{ color: "var(--corBotao)" }}>IN</span>
-            </P>
+            LOG<span style={{ color: "var(--corBotao)" }}>IN</span>
           </Typography>
         </div>
 
@@ -174,6 +176,7 @@ function Signin() {
           </Twobuttons>
         </form>
       </Box>
+      <img src={logo_cao} alt="" height="100%" width="100%" />
     </div>
   );
 }

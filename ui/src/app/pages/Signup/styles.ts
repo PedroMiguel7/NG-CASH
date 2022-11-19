@@ -8,3 +8,7 @@ export const ButtonSignup = styled.div`
 export const P = styled.div`
   color: white;
 `;
+
+export const Container = styled.div`
+  border: 1px solid blue;
+`;

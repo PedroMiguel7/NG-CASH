@@ -2,12 +2,13 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  overflow: hidden;
 }
 
-/* .Fundo {
+.Fundo {
   width: 100vw;
   height: 100vh;
-  background: url("./assets/imgs/fundo_animado/fundo.png");
+  background-color: black;
   background-size: cover;
   position: relative;
-} */
+}
