@@ -1,9 +1,10 @@
+import { Container } from "./styles";
+
 export default function Home(Sidebar: any) {
-  
   return (
-    <>
-      <div>Home</div>
+    <Container>
       <div>{Sidebar}</div>
-    </>
+      <div>Home</div>
+    </Container>
   );
 }

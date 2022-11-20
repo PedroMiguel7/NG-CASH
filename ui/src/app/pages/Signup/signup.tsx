@@ -135,7 +135,7 @@ export default function Signup() {
             name="password"
             label="password"
             value={password}
-            onChange={(e: any) => [setPassword(e.target.value), setError("")]}
+            onChange={(f: any) => [setPassword(f.target.value), setError("")]}
             variant="outlined"
             margin="dense"
             fullWidth
@@ -161,8 +161,8 @@ export default function Signup() {
             name="password"
             label="Confirm your password"
             value={confirmpassword}
-            onChange={(e: any) => [
-              setConfirmpassword(e.target.value),
+            onChange={(p: any) => [
+              setConfirmpassword(p.target.value),
               setError(""),
             ]}
             variant="outlined"
