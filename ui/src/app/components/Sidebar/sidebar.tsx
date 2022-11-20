@@ -7,7 +7,6 @@ function SideBar(props: any) {
     <Logo>
       <img src={logo} alt="logo" />
     </Logo>
-    Sidebar
   </Container>);
 }
 

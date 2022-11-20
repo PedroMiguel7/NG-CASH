@@ -2,7 +2,6 @@ import Home from "../pages/Home/home";
 import Signin  from "../pages/Signin/signin";
 import Signup from "../pages/Signup/signup";
 import { BrowserRouter, Route, Routes} from "react-router-dom";
-// import { useJwt } from "react-jwt";
 
 
 const Private = (props: any) => {

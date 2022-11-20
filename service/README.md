@@ -155,7 +155,7 @@ return:
 
 ```json
 {
-  "debited": {
+
     {
       "id": 1,
       "debitedAccountId": 1,
@@ -169,9 +169,7 @@ return:
       "creditedAccountId": 2,
       "value": 25.76,
       "createdAt": "2022-11-17 15:12:18 +0000"
-    }
-  },
-  "credited": {
+    },
     {
       "id": 4,
       "debitedAccountId": 2,
@@ -186,7 +184,6 @@ return:
       "value": 25.76,
       "createdAt": "2022-11-17 15:12:18 +0000"
     }
-  }
 }
 ```
 
