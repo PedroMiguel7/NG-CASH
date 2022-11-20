@@ -5,10 +5,7 @@ export const ButtonSignup = styled.div`
   margin-top: 5px;
 `;
 
-export const P = styled.div`
-  color: white;
-`;
-
-export const Container = styled.div`
-  border: 1px solid blue;
+export const IMGPORCO = styled.div`
+  display: flex;
+  justify-content: center;
 `;

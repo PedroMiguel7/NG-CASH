@@ -9,29 +9,31 @@ import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import { ButtonSignup, P } from "./styles";
+import { ButtonSignup, IMGPORCO } from "./styles";
+import porco from "../../../assets/imgs/porquinho_limpo.png";
+import ngcard from "../../../assets/svgs/ngcard.svg";
 
 const CssTextField = styled(TextField)({
   "& .MuiOutlinedInput-root": {
-    color: "#F4F5FA",
-    svg: { color: "#F4F5FA" },
+    color: "black",
+    svg: { color: "black" },
     "&.Mui-focused": {
-      borderColor: "#F4F5FA",
+      borderColor: "black",
       svg: { color: "var(--corBotao)" },
     },
     "& fieldset": {
-      borderColor: "#F4F5FA",
+      borderColor: "black",
       borderRadius: 5,
     },
     "&:hover fieldset": {
-      borderColor: "#C2C3C6",
+      borderColor: "black",
     },
     "&.Mui-focused fieldset": {
       borderColor: "var(--corBotao)",
     },
   },
   ".MuiInputLabel-outlined": {
-    color: "#F4F5FA",
+    color: "black",
     "&.Mui-focused": {
       color: "var(--corBotao)",
     },
@@ -41,14 +43,15 @@ const CssTextField = styled(TextField)({
 const style = {
   position: "absolute",
   top: "50%",
-  left: "50%",
+  left: "75%",
   transform: "translate(-50%, -50%)",
-  bgcolor: "#21222D",
+  bgcolor: "#FCFCFC",
   borderRadius: 2,
   boxShadow: 24,
   p: 5,
   minWidth: "400px",
   width: "25vw",
+  height: "80vh",
 };
 
 export default function Signup() {
@@ -96,108 +99,110 @@ export default function Signup() {
   };
 
   return (
-    <Box sx={style}>
-      <div className="d-flex align-items-center justify-content-between mb-4">
-        <div className="OcuparEspaco"></div>
-        <div className="ClearRoundedIcon order-2" />
-        <Typography
-          id="modal-modal-title"
-          variant="h6"
-          component="h2"
-          className="text-center order-1"
-        >
-          <P>
-            SIG<span style={{ color: "var(--corBotao)" }}>NUP</span>
-          </P>
-        </Typography>
-      </div>
-
-      <form>
-        <CssTextField
-          required
-          id="username"
-          name="username"
-          label="username"
-          value={username}
-          onChange={(e: any) => [setUsername(e.target.value), setError("")]}
-          variant="outlined"
-          margin="dense"
-          fullWidth
-          className="textField"
-          type="text"
-        />
-        <CssTextField
-          required
-          id="password"
-          name="password"
-          label="password"
-          value={password}
-          onChange={(e: any) => [setPassword(e.target.value), setError("")]}
-          variant="outlined"
-          margin="dense"
-          fullWidth
-          className="textField"
-          type={showPassword ? "text" : "password"}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="start">
-                <IconButton
-                  aria-label="toggle password visibility"
-                  onClick={handleClickShowPassword}
-                  edge="end"
-                >
-                  {showPassword ? <VisibilityOff /> : <Visibility />}
-                </IconButton>
-              </InputAdornment>
-            ),
-          }}
-        />
-        <CssTextField
-          required
-          id="password"
-          name="password"
-          label="Confirm your password"
-          value={confirmpassword}
-          onChange={(e: any) => [
-            setConfirmpassword(e.target.value),
-            setError(""),
-          ]}
-          variant="outlined"
-          margin="dense"
-          fullWidth
-          className="textField"
-          type={showPassword ? "text" : "password"}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="start">
-                <IconButton
-                  aria-label="toggle password visibility"
-                  onClick={handleClickShowPassword}
-                  edge="end"
-                >
-                  {showPassword ? <VisibilityOff /> : <Visibility />}
-                </IconButton>
-              </InputAdornment>
-            ),
-          }}
-        />
-        <ButtonSignup>
-          <Button
-            style={{
-              color: "#F4F5FA",
-              background: "var(--corBotao)",
-              textTransform: "capitalize",
-              boxShadow: "none",
-            }}
-            id="button"
-            variant="contained"
-            type="submit"
-            onClick={(e: any) => CreateUser(e)}
+    <div className="Fundo2" id="Fundo">
+      <Box sx={style}>
+        <IMGPORCO>
+          <img src={porco} alt="" height="180px"/>
+        </IMGPORCO>
+        <div className="d-flex align-items-center justify-content-between mb-4">
+          <Typography
+            id="modal-modal-title"
+            variant="h6"
+            component="h2"
+            className="text-center order-1"
           >
-            CREATE ACCOUNT
-          </Button>
-        </ButtonSignup>
-      </form>
-    </Box>
+            SIG<span style={{ color: "var(--corBotao)" }}>NUP</span>
+          </Typography>
+        </div>
+
+        <form>
+          <CssTextField
+            required
+            id="username"
+            name="username"
+            label="username"
+            value={username}
+            onChange={(e: any) => [setUsername(e.target.value), setError("")]}
+            variant="outlined"
+            margin="dense"
+            fullWidth
+            className="textField"
+            type="text"
+          />
+          <CssTextField
+            required
+            id="password"
+            name="password"
+            label="password"
+            value={password}
+            onChange={(e: any) => [setPassword(e.target.value), setError("")]}
+            variant="outlined"
+            margin="dense"
+            fullWidth
+            className="textField"
+            type={showPassword ? "text" : "password"}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="start">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleClickShowPassword}
+                    edge="end"
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+          />
+          <CssTextField
+            required
+            id="password"
+            name="password"
+            label="Confirm your password"
+            value={confirmpassword}
+            onChange={(e: any) => [
+              setConfirmpassword(e.target.value),
+              setError(""),
+            ]}
+            variant="outlined"
+            margin="dense"
+            fullWidth
+            className="textField"
+            type={showPassword ? "text" : "password"}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="start">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleClickShowPassword}
+                    edge="end"
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+          />
+          <ButtonSignup>
+            <Button
+              style={{
+                color: "#F4F5FA",
+                background: "var(--corBotao)",
+                textTransform: "capitalize",
+                boxShadow: "none",
+              }}
+              id="button"
+              variant="contained"
+              type="submit"
+              onClick={(e: any) => CreateUser(e)}
+            >
+              CREATE ACCOUNT
+            </Button>
+          </ButtonSignup>
+        </form>
+      </Box>
+      <img src={ngcard} alt="" />
+    </div>
   );
 }
