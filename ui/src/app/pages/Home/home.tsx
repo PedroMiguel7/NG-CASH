@@ -34,7 +34,7 @@ export default function Home(Sidebar: any) {
       debitedAccountId: 1,
       creditedAccountId: 2,
       usernameTransaction: "adm2",
-      value: 25.76,
+      value: 5.76,
       createdAt: "2022-11-17 13:12:18 +0000",
     },
     {
@@ -42,7 +42,7 @@ export default function Home(Sidebar: any) {
       debitedAccountId: 2,
       creditedAccountId: 1,
       usernameTransaction: "radm23",
-      value: 25.76,
+      value: 125.76,
       createdAt: "2022-11-17 15:12:18 +0000",
     },
     {
@@ -50,7 +50,7 @@ export default function Home(Sidebar: any) {
       debitedAccountId: 1,
       creditedAccountId: 2,
       usernameTransaction: "b123",
-      value: 25.76,
+      value: 65.76,
       createdAt: "2022-11-17 15:12:18 +0000",
     },
     {
@@ -58,8 +58,8 @@ export default function Home(Sidebar: any) {
       debitedAccountId: 2,
       creditedAccountId: 1,
       usernameTransaction: "adm2",
-      value: 25.76,
-      createdAt: "2022-11-17 13:12:18 +0000",
+      value: 15.7,
+      createdAt: "2022-10-18 13:12:18 +0000",
     },
   ]);
 
@@ -73,8 +73,16 @@ export default function Home(Sidebar: any) {
 
   if (filter) {
     const exp = eval(`/${filter.replace(/[^\d\w]+/, ".*")}/i`);
-    TRANSFERENCIASFl = TRANSFERENCIAS?.filter((projetos) =>
-      exp.test(projetos.usernameTransaction.toUpperCase())
+    TRANSFERENCIASFl = TRANSFERENCIAS?.filter(
+      (tr) =>
+        exp.test(tr.usernameTransaction.toUpperCase()) ||
+        exp.test(tr.value) ||
+        exp.test(
+          new Date(tr.createdAt).toLocaleString("pt-BR", {
+            day: "2-digit",
+            month: "short",
+          })
+        )
     );
     if (TRANSFERENCIAS.length === 0) {
       emptyState = true;
