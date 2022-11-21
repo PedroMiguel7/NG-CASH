@@ -18,14 +18,15 @@ import { InputBase } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import RECEBIDO from "../../../assets/svgs/money+recebido.svg";
 import ENVIADO from "../../../assets/svgs/money+enviado.svg";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import api from "../../services/api";
 
 export default function Home(Sidebar: any) {
-  const token = localStorage.getItem("token")
+  const token: any = localStorage.getItem("token")
     ? localStorage.getItem("token")
     : "token";
-  // const { decodedToken, isExpired, reEvaluateToken } = useJwt(token);
-  // const userId= decodedToken?.id
+  const { decodedToken, isExpired, reEvaluateToken } = useJwt(token);
+  const userId: any = decodedToken;
   // const userName = decodedToken?.username;
 
   const [TRANSFERENCIAS, setTRANSFERENCIAS] = useState([
@@ -63,11 +64,25 @@ export default function Home(Sidebar: any) {
     },
   ]);
 
+  useEffect(() => {
+    const fetchTransactions = async () => {
+      try {
+        const response = await api.get(`/Transaction/${userId}/`);
+        setTRANSFERENCIAS(response.data);
+      } catch (error: any) {
+        console.log(error);
+        if (error.response.status === 401) {
+          window.location.href = "/";
+        }
+      }
+    };
+    fetchTransactions();
+  }, []);
+
   const [filter, setFilter] = useState("");
   const handleChange = (event: any) => {
     setFilter(event.target.value);
   };
-
   var emptyState = false;
   var TRANSFERENCIASFl: any[] = TRANSFERENCIAS;
 

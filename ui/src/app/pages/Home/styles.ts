@@ -35,7 +35,7 @@ export const H = styled.div`
 export const Transferencia = styled.div`
   display: flex;
   margin-top: 15px;
-  border-bottom: 1px solid #D0D0D0;
+  border-bottom: 1px solid #d0d0d0;
   padding: 6px;
 `;
 
