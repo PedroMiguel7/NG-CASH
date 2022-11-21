@@ -4,6 +4,7 @@ import { BadRequestError } from "../helpers/api-erros";
 import { Response } from "express";
 import { Request } from "express";
 import bcrypt from "bcrypt";
+import { verify } from "jsonwebtoken";
 
 export class UserController {
   async CreateUser(req: Request, res: Response) {
@@ -48,15 +49,34 @@ export class UserController {
     }
   }
 
-  async ListUser(req: Request, res: Response) {
+  async ListUserForIdAccount(req: Request, res: Response) {
     try {
-      const { user_id } = req.params;
-      // const { id } = req.body;
-      // if (id !== user_id) {
-      //   return { message: "Deu ruim" };
-      // }
+      const token: any = req.headers.authorization;
+      const decodedToken: any = verify(token, String(process.env.JWT_PASS));
+      const user = await userRepository.findOneBy({
+        accountId: Number(decodedToken.account.id),
+      });
 
-      const user = await userRepository.findOneBy({ id: Number(user_id) });
+      if (!user) {
+        throw new BadRequestError("User not found");
+      }
+
+      let { password: _, ...USER } = user;
+
+      return res.status(200).json(USER);
+    } catch (error: any) {
+      res.status(400).json({ message: "Deu ruim" });
+    }
+  }
+
+  async ListUserAccount(req: Request, res: Response) {
+    try {
+      const token: any = req.headers.authorization;
+      const decodedToken: any = verify(token, String(process.env.JWT_PASS));
+
+      const user = await userRepository.findOneBy({
+        id: Number(decodedToken.id),
+      });
       if (!user) {
         throw new BadRequestError("User not found");
       }
@@ -74,10 +94,10 @@ export class UserController {
           username: USER.username,
           account: account,
         };
-        return res.status(201).json(USERformat);
+        return res.status(200).json(USERformat);
       }
 
-      return res.status(201).json(USER);
+      return res.status(200).json(USER);
     } catch (error: any) {
       res.status(400).json({ message: "Deu ruim" });
     }
@@ -86,10 +106,13 @@ export class UserController {
   // precisa atualizar o retorno
   async UpdateUser(req: Request, res: Response) {
     try {
-      const { user_id } = req.params;
       const { username } = req.body;
+      const token: any = req.headers.authorization;
+      const decodedToken: any = verify(token, String(process.env.JWT_PASS));
 
-      const user = await userRepository.findOneBy({ id: Number(user_id) });
+      const user = await userRepository.findOneBy({
+        id: Number(decodedToken.id),
+      });
 
       if (!user) {
         throw new BadRequestError("User not found");
@@ -98,7 +121,7 @@ export class UserController {
       await userRepository
         .createQueryBuilder()
         .update({ username: username })
-        .where({ id: user_id })
+        .where({ id: decodedToken.id })
         .execute();
 
       const { password: _, ...userResponse } = user;
@@ -111,16 +134,21 @@ export class UserController {
 
   async DelUser(req: Request, res: Response) {
     try {
-      const { user_id } = req.params;
-      const user = await userRepository.findOneBy({ id: Number(user_id) });
+      const token: any = req.headers.authorization;
+      const decodedToken: any = verify(token, String(process.env.JWT_PASS));
+      const user = await userRepository.findOneBy({
+        id: Number(decodedToken.id),
+      });
 
       if (!user) {
         throw new BadRequestError("User not found");
       }
 
-      userRepository.delete(user_id);
+      userRepository.delete(decodedToken.id);
 
-      const accountId = await new AccountController().DelAccount(user.accountId);
+      const accountId = await new AccountController().DelAccount(
+        user.accountId
+      );
 
       return res.status(200).json({ message: "sucess delete" });
     } catch (error: any) {

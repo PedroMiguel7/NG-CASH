@@ -4,8 +4,8 @@ import { authMiddleware } from "../middlewares/authMiddleware";
 
 const routestransaction = Router();
 
-routestransaction.post("/transaction/:user_id", authMiddleware, new TransactionController().CreateTransaction);
-routestransaction.get("/transaction/:id", authMiddleware, new TransactionController().ListTransaction);
+routestransaction.post("/transaction", authMiddleware, new TransactionController().CreateTransaction);
+routestransaction.get("/transaction", authMiddleware, new TransactionController().ListTransaction);
 routestransaction.delete("/transaction/:id", authMiddleware, new TransactionController().DelTransaction);
 
 export default routestransaction;

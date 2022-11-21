@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
-import { UnauthorizedError } from "../helpers/api-erros";
 import { userRepository } from "../domain/repositories/userRepository";
 
 export const authMiddleware = async (
@@ -9,14 +8,9 @@ export const authMiddleware = async (
   next: NextFunction
 ) => {
   const { authorization } = req.headers;
-  if (!authorization) {
-    throw new UnauthorizedError("Not authorization");
+  if (authorization) {
+    const { id } = jwt.verify(authorization, process.env.JWT_PASS ?? "") as any;
+    const user2 = await userRepository.findOneBy({ id });
+    next();
   }
-  const token = authorization.split(" ")[1];
-  const { id } = jwt.verify(token, process.env.JWT_PASS ?? "") as any;
-  const user2 = await userRepository.findOneBy({ id });
-  if (!user2) {
-    throw new UnauthorizedError("Not authorization");
-  }
-  next();
 };

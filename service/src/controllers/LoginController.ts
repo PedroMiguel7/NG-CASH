@@ -3,6 +3,7 @@ import { Response } from "express";
 import { Request } from "express";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { AccountController } from "./AccountController";
 
 export class LoginController {
   async Login(req: Request, res: Response) {
@@ -17,8 +18,14 @@ export class LoginController {
       if (!varifypass) {
         throw new Error("Invalid email or password");
       }
+
+      var account;
+      if (user.accountId) {
+        account = await new AccountController().ListAccount(user.accountId);
+      }
+
       const token = jwt.sign(
-        { id: user.id, username: user.username },
+        { id: user.id, username: user.username, account: account },
         process.env.JWT_PASS ?? "",
         { expiresIn: "24h" }
       );
