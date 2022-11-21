@@ -2,10 +2,10 @@ import { useState } from "react";
 import api from "../../services/api";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
+import IconButton from "@mui/material/IconButton";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
@@ -51,7 +51,7 @@ const style = {
   p: 5,
   minWidth: "400px",
   width: "25vw",
-  height: "60vh",
+  height: "75vh",
 };
 
 function Signin() {
