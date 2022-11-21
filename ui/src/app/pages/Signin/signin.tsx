@@ -51,7 +51,7 @@ const style = {
   p: 5,
   minWidth: "400px",
   width: "25vw",
-  height: "80vh",
+  height: "60vh",
 };
 
 function Signin() {
@@ -78,7 +78,7 @@ function Signin() {
           } catch (error) {
             console.log(error);
           }
-          window.location.href = "/home";
+          setTimeout(() => (window.location.href = "/home"), 500);
         };
         fetchToken();
       })
@@ -88,7 +88,7 @@ function Signin() {
   return (
     <div className="Fundo">
       <Box sx={style}>
-        <img src={logowhite}/>
+        <img src={logowhite} />
         <div className="d-flex align-items-center justify-content-between mb-4">
           <div className="OcuparEspaco"></div>
           <div className="ClearRoundedIcon order-2" />

@@ -1,8 +1,7 @@
 import Home from "../pages/Home/home";
-import Signin  from "../pages/Signin/signin";
+import Signin from "../pages/Signin/signin";
 import Signup from "../pages/Signup/signup";
-import { BrowserRouter, Route, Routes} from "react-router-dom";
-
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 const Private = (props: any) => {
   const token = localStorage.getItem("token")
@@ -22,18 +21,16 @@ const Private = (props: any) => {
   if (token !== null) {
     return props;
   } else {
-    return Signin
+    return Signin;
   }
 };
 
-export const Rout = (props: {
-  SideBar: any;
-}) => (
+export const Rout = (props: { SideBar: any }) => (
   <BrowserRouter>
-      <Routes>
-        <Route path="/" element={Signin()} />
-        <Route path="/signup" element={Signup()} />
-        <Route path="/home" element={Home(props.SideBar)} />
-      </Routes>
+    <Routes>
+      <Route path="/" element={<Signin />} />
+      <Route path="/signup" element={<Signup />} />
+      <Route path="/home" element={<Home />} />
+    </Routes>
   </BrowserRouter>
 );

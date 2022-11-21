@@ -51,7 +51,7 @@ const style = {
   p: 5,
   minWidth: "400px",
   width: "25vw",
-  height: "80vh",
+  height: "60vh",
 };
 
 export default function Signup() {
@@ -155,7 +155,7 @@ export default function Signup() {
               ),
             }}
           />
-          <CssTextField
+          {/* <CssTextField
             required
             id="password"
             name="password"
@@ -183,7 +183,7 @@ export default function Signup() {
                 </InputAdornment>
               ),
             }}
-          />
+          /> */}
           <ButtonSignup>
             <Button
               style={{
