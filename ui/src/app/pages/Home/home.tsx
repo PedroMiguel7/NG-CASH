@@ -12,14 +12,19 @@ import {
   TRnome,
   TRhead,
   TRvalor,
+  Saldo,
+  NEWTr,
 } from "./styles";
 import { useJwt } from "react-jwt";
 import { InputBase } from "@material-ui/core";
+import Modal from "@material-ui/core/Modal";
+import Button from "@mui/material/Button";
 import SearchIcon from "@material-ui/icons/Search";
 import RECEBIDO from "../../../assets/svgs/money+recebido.svg";
 import ENVIADO from "../../../assets/svgs/money+enviado.svg";
 import { useEffect, useState } from "react";
 import api from "../../services/api";
+import Transaction from "../../components/modal_transaction/transaction";
 
 export default function Home(Sidebar: any) {
   const token: any = localStorage.getItem("token")
@@ -27,7 +32,8 @@ export default function Home(Sidebar: any) {
     : "token";
   const { decodedToken, isExpired, reEvaluateToken } = useJwt(token);
   const userId: any = decodedToken;
-  // const userName = decodedToken?.username;
+  const userName: any = decodedToken;
+  const [user, setUser] = useState([]);
 
   const [TRANSFERENCIAS, setTRANSFERENCIAS] = useState([
     {
@@ -77,6 +83,18 @@ export default function Home(Sidebar: any) {
       }
     };
     fetchTransactions();
+    const fetchAccount = async () => {
+      try {
+        const response = await api.get(`/user/${userId}/`);
+        setUser(response.data);
+      } catch (error: any) {
+        console.log(error);
+        if (error.response.status === 401) {
+          window.location.href = "/";
+        }
+      }
+    };
+    fetchAccount();
   }, []);
 
   const [filter, setFilter] = useState("");
@@ -104,13 +122,49 @@ export default function Home(Sidebar: any) {
     }
   }
 
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   return (
     <Container>
       <div>{Sidebar}</div>
       <HomeContainer>
         <Header>
-          <H>Olá, user</H>
+          <H>Olá, {userName}</H>
+          <Saldo> SALDO: R${user}</Saldo>
         </Header>
+        <NEWTr>
+          <Button
+            style={{
+              color: "#F4F5FA",
+              width: "25%",
+              background: "#7431F4",
+              textTransform: "capitalize",
+              boxShadow: "none",
+            }}
+            id="button"
+            variant="contained"
+            type="submit"
+            onClick={handleOpen}
+          >
+            Transferir
+          </Button>
+          <Modal
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="simple-modal-title"
+            aria-describedby="simple-modal-description"
+          >
+            {<Transaction></Transaction>}
+          </Modal>
+        </NEWTr>
         <Transferencias>
           <P>Últimas Transferências</P>
           <div className="search">

@@ -12,6 +12,28 @@ export const Header = styled.div`
   width: 100vw;
 `;
 
+export const H = styled.div`
+  display: flex;
+  font-size: 20px;
+  justify-content: start;
+  margin-top: 20px;
+  margin-left: 20px;
+`;
+
+export const Saldo = styled.div`
+  display: flex;
+  font-size: 15px;
+  justify-content: start;
+  margin-top: 20px;
+  margin-left: 20px;
+`;
+
+export const NEWTr = styled.div`
+  width: 50%;
+  margin-left: 20px;
+  margin-top: 20px;
+`;
+
 export const Transferencias = styled.div`
   width: 50%;
   margin-left: 20px;
@@ -22,14 +44,6 @@ export const P = styled.div`
   display: flex;
   font-size: 20px;
   justify-content: start;
-`;
-
-export const H = styled.div`
-  display: flex;
-  font-size: 20px;
-  justify-content: start;
-  margin-top: 20px;
-  margin-left: 20px;
 `;
 
 export const Transferencia = styled.div`
