@@ -27,19 +27,6 @@ import SideBar from "../../components/Sidebar/sidebar";
 export default function Home() {
   const [user, setUser]: any = useState([]);
 
-  const fetchUser = async () => {
-    try {
-      const response = await api.get(`/user`);
-      setUser(response.data);
-    } catch (error: any) {
-      console.log(error);
-      if (error.response.status === 401) {
-        window.location.href = "/";
-      }
-    }
-  };
-  fetchUser();
-
   // const [TRANSFERENCIAS, setTRANSFERENCIAS] = useState([
   //   {
   //     id: 1,
@@ -72,18 +59,32 @@ export default function Home() {
   // ]);
   const [TRANSFERENCIAS, setTRANSFERENCIAS]: any = useState([]);
 
-  const fetchTransactions = async () => {
-    try {
-      const response = await api.get(`/Transaction`);
-      setTRANSFERENCIAS(response.data);
-    } catch (error: any) {
-      console.log(error);
-      if (error.response.status === 401) {
-        window.location.href = "/";
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await api.get(`/user`);
+        setUser(response.data);
+      } catch (error: any) {
+        console.log(error);
+        if (error.response.status === 401) {
+          window.location.href = "/";
+        }
       }
-    }
-  };
-  fetchTransactions();
+    };
+    fetchUser();
+    const fetchTransactions = async () => {
+      try {
+        const response = await api.get(`/transaction`);
+        setTRANSFERENCIAS(response.data);
+      } catch (error: any) {
+        console.log(error);
+        if (error.response.status === 401) {
+          window.location.href = "/";
+        }
+      }
+    };
+    fetchTransactions();
+  }, []);
 
   const fetchAccount = async () => {
     try {

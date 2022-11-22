@@ -17,4 +17,3 @@ export const Twobuttons = styled.div`
   justify-content: space-between;
   margin-top: 10px;
 `;
-

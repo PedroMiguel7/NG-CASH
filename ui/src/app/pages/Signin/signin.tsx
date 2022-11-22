@@ -113,6 +113,7 @@ function Signin() {
             variant="outlined"
             margin="dense"
             fullWidth
+            size="small"
             className="textField"
             type="text"
           />
@@ -121,6 +122,7 @@ function Signin() {
             id="password"
             name="password"
             label="password"
+            size="small"
             value={password}
             onChange={(e: any) => [setPassword(e.target.value), setError("")]}
             variant="outlined"

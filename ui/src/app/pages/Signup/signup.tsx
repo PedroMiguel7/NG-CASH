@@ -122,6 +122,7 @@ export default function Signup() {
             name="username"
             label="username"
             value={username}
+            size="small"
             onChange={(e: any) => [setUsername(e.target.value), setError("")]}
             variant="outlined"
             margin="dense"
@@ -132,6 +133,7 @@ export default function Signup() {
           <CssTextField
             required
             id="password"
+            size="small"
             name="password"
             label="password"
             value={password}
