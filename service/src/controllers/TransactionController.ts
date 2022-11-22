@@ -40,11 +40,11 @@ export class TransactionController {
 
       await new AccountController().UpdateAccount(
         accountIdOUT?.id,
-        accountIdOUT?.balance - value
+        Number(accountIdOUT?.balance) - Number(value)
       );
       await new AccountController().UpdateAccount(
         accountIdIN?.id,
-        accountIdIN?.balance + value
+        Number(accountIdIN?.balance) + Number(value)
       );
 
       const newTransaction = TransactionRepository.create({
@@ -74,22 +74,23 @@ export class TransactionController {
         where: {
           debitedAccountId: Number(decodedToken.id),
         },
-        order: orderParams,
       });
       const Transactionsin = await TransactionRepository.find({
         where: {
           creditedAccountId: Number(decodedToken.id),
         },
-        order: orderParams,
       });
 
-      if (filter === "cash-out") return res.status(200).json(Transactionsout);
-      else if (filter === "cash-in")
-        return res.status(200).json(Transactionsin);
-      else
-        return res
-          .status(200)
-          .json({ cashOut: Transactionsout, cashIn: Transactionsin });
+      if (filter) {
+        if (filter === "cash-out") return res.status(200).json(Transactionsout);
+        else if (filter === "cash-in")
+          return res.status(200).json(Transactionsin);
+      }
+
+      const transações: any[] = [];
+      Transactionsout?.map(e => transações.push(e))
+      Transactionsin?.map(e => transações.push(e))
+      res.status(200).json(transações.sort((a, b)=> (a.createdAt) - (b.createdAt)));
     } catch (error: any) {
       res.status(400).json({ message: "Deu ruim" });
     }
