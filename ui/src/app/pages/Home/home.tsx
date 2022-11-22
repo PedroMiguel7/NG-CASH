@@ -109,11 +109,7 @@ export default function Home() {
     const exp = eval(`/${filter.replace(/[^\d\w]+/, ".*")}/i`);
     TRANSFERENCIASFl = TRANSFERENCIAS?.filter(
       (tr: { value: any; createdAt: string | number | Date }) =>
-        // exp.test(
-        //   tr.creditedAccountId === userId
-        //     ? usernametransaction(tr.creditedAccountId)
-        //     : usernametransaction(tr.debitedAccountId)
-        // ) ||
+        // exp.test(tr.username.toUpperCase()) ||
         exp.test(tr.value) ||
         exp.test(
           new Date(tr.createdAt).toLocaleString("pt-BR", {
@@ -181,11 +177,7 @@ export default function Home() {
                       })}
                     </TRdata>
                   </TRhead>
-                  <TRnome>
-                    {/* {e.creditedAccountId === userId
-                      ? usernametransaction(e.creditedAccountId)
-                      : usernametransaction(e.debitedAccountId)} */}
-                  </TRnome>
+                  {/* <TRnome>{e.username}</TRnome> */}
                   <TRvalor>R$ {e.value}</TRvalor>
                 </TRdados>
               </Transferencia>

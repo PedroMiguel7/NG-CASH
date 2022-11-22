@@ -5,6 +5,7 @@ import { Response } from "express";
 import { Request } from "express";
 import { verify } from "jsonwebtoken";
 import { TransactionRepository } from "../domain/repositories/TransactionRespository";
+import { transações } from "../domain/entities/transações";
 
 export class TransactionController {
   async CreateTransaction(req: Request, res: Response) {
@@ -70,16 +71,35 @@ export class TransactionController {
       let orderParams: any = {};
       orderParams[String(order)] = desc === "false" ? "ASC" : "DESC";
 
-      const Transactionsout = await TransactionRepository.find({
-        where: {
-          debitedAccountId: Number(decodedToken.id),
-        },
-      });
-      const Transactionsin = await TransactionRepository.find({
-        where: {
-          creditedAccountId: Number(decodedToken.id),
-        },
-      });
+      const Transactionsout = await TransactionRepository.find(
+        filter || order || desc
+          ? {
+              where: {
+                debitedAccountId: Number(decodedToken.id),
+              },
+              order: orderParams,
+            }
+          : {
+              where: {
+                debitedAccountId: Number(decodedToken.id),
+              },
+            }
+      );
+
+      const Transactionsin = await TransactionRepository.find(
+        filter || order || desc
+          ? {
+              where: {
+                creditedAccountId: Number(decodedToken.id),
+              },
+              order: orderParams,
+            }
+          : {
+              where: {
+                creditedAccountId: Number(decodedToken.id),
+              },
+            }
+      );
 
       if (filter) {
         if (filter === "cash-out") return res.status(200).json(Transactionsout);
@@ -88,9 +108,31 @@ export class TransactionController {
       }
 
       const transações: any[] = [];
-      Transactionsout?.map(e => transações.push(e))
-      Transactionsin?.map(e => transações.push(e))
-      res.status(200).json(transações.sort((a, b)=> (a.createdAt) - (b.createdAt)));
+      Transactionsout?.map((e) => transações.push(e));
+      Transactionsin?.map((e) => transações.push(e));
+
+      const UserTransaction = async (id: number) => {
+        const userT = await userRepository.findOneBy({
+          accountId: Number(id),
+        });
+        return String(userT?.username);
+      };
+
+      // let transaçõesFormate: any[] = [];
+      // transações.map((e) => {
+      //   let username = UserTransaction(
+      //     e.debitedAccountId === decodedToken.account.id
+      //       ? e.creditedAccountId
+      //       : e.debitedAccountId
+      //   );
+      //   transaçõesFormate = [{e, username}] ;
+      // });
+
+      res
+        .status(200)
+        .json(
+          transações.sort((a, b) => Number(a.createdAt) - Number(b.createdAt))
+        );
     } catch (error: any) {
       res.status(400).json({ message: "Deu ruim" });
     }
