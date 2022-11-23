@@ -14,6 +14,7 @@ import {
   TRvalor,
   Saldo,
   NEWTr,
+  TransferenciaHeader,
 } from "./styles";
 import { InputBase } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
@@ -23,6 +24,7 @@ import { useEffect, useState } from "react";
 import api from "../../services/api";
 import Transaction from "../../components/modal_transaction/transaction";
 import SideBar from "../../components/Sidebar/sidebar";
+import FilterPopper from "../../components/filter/filtro";
 
 export default function Home() {
   const [user, setUser]: any = useState([]);
@@ -138,7 +140,10 @@ export default function Home() {
           <Transaction></Transaction>
         </NEWTr>
         <Transferencias>
-          <P>Últimas Transferências</P>
+          <TransferenciaHeader>
+            <P>Últimas Transferências</P>
+            <FilterPopper></FilterPopper>
+          </TransferenciaHeader>
           <div className="search">
             <div className="searchIcon">
               <SearchIcon />

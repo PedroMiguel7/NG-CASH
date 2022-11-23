@@ -44,6 +44,11 @@ export const P = styled.div`
   display: flex;
   font-size: 20px;
   justify-content: start;
+  padding-right: 50px;
+`;
+
+export const TransferenciaHeader = styled.div`
+  display: flex;
 `;
 
 export const Transferencia = styled.div`
