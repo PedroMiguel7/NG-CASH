@@ -21,7 +21,7 @@ export class LoginController {
 
       var account;
       if (user.accountId) {
-        account = await new AccountController().ListAccount(user.accountId);
+        account = await new AccountController().ListAccount(user.accountId.id);
       }
 
       const token = jwt.sign(
