@@ -36,7 +36,7 @@ export class UserController {
       const newUser = userRepository.create({
         username,
         password: criptopass,
-        accountId: accountId?.id,
+        accountId: accountId,
       });
 
       await userRepository.save(newUser);
@@ -44,26 +44,6 @@ export class UserController {
       const { password: _, ...user } = newUser;
 
       return res.status(201).json(user);
-    } catch (error: any) {
-      res.status(400).json({ message: "Deu ruim" });
-    }
-  }
-
-  async ListUserForIdAccount(req: Request, res: Response) {
-    try {
-      const token: any = req.headers.authorization;
-      const decodedToken: any = verify(token, String(process.env.JWT_PASS));
-      const user = await userRepository.findOneBy({
-        accountId: Number(decodedToken.account.id),
-      });
-
-      if (!user) {
-        throw new BadRequestError("User not found");
-      }
-
-      let { password: _, ...USER } = user;
-
-      return res.status(200).json(USER);
     } catch (error: any) {
       res.status(400).json({ message: "Deu ruim" });
     }
@@ -83,7 +63,7 @@ export class UserController {
 
       var account;
       if (user.accountId) {
-        account = await new AccountController().ListAccount(user.accountId);
+        account = await new AccountController().ListAccount(user.accountId.id);
       }
 
       let { password: _, ...USER } = user;
@@ -147,7 +127,7 @@ export class UserController {
       userRepository.delete(decodedToken.id);
 
       const accountId = await new AccountController().DelAccount(
-        user.accountId
+        user.accountId.id
       );
 
       return res.status(200).json({ message: "sucess delete" });

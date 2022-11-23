@@ -8,7 +8,6 @@ const routesuser = Router();
 routesuser.post("/login", new LoginController().Login);
 
 routesuser.post("/user", new UserController().CreateUser);
-routesuser.get("/user/account", authMiddleware, new UserController().ListUserForIdAccount);
 routesuser.get("/user", authMiddleware, new UserController().ListUserAccount);
 routesuser.put("/user", authMiddleware, new UserController().UpdateUser);
 routesuser.delete("/user", authMiddleware, new UserController().DelUser);

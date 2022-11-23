@@ -5,7 +5,6 @@ import { Response } from "express";
 import { Request } from "express";
 import { verify } from "jsonwebtoken";
 import { TransactionRepository } from "../domain/repositories/TransactionRespository";
-import { transações } from "../domain/entities/transações";
 
 export class TransactionController {
   async CreateTransaction(req: Request, res: Response) {
@@ -25,10 +24,10 @@ export class TransactionController {
       }
 
       const accountIdOUT = await new AccountController().ListAccount(
-        decodedToken.account.id
+        decodedToken.accountId.id
       );
       const accountIdIN = await new AccountController().ListAccount(
-        userExistIN.accountId
+        userExistIN.accountId.id
       );
 
       if (!accountIdOUT || !accountIdIN) {
@@ -49,8 +48,8 @@ export class TransactionController {
       );
 
       const newTransaction = TransactionRepository.create({
-        debitedAccountId: accountIdOUT?.id,
-        creditedAccountId: accountIdIN?.id,
+        debitedAccountId: accountIdOUT,
+        creditedAccountId: accountIdIN,
         value,
       });
 
@@ -75,14 +74,16 @@ export class TransactionController {
         filter || order || desc
           ? {
               where: {
-                debitedAccountId: Number(decodedToken.id),
+                debitedAccountId: decodedToken.id,
               },
               order: orderParams,
+              relations: ["creditedAccountId"],
             }
           : {
               where: {
-                debitedAccountId: Number(decodedToken.id),
+                debitedAccountId: decodedToken.id,
               },
+              relations: ["creditedAccountId"],
             }
       );
 
@@ -90,14 +91,16 @@ export class TransactionController {
         filter || order || desc
           ? {
               where: {
-                creditedAccountId: Number(decodedToken.id),
+                creditedAccountId: decodedToken,
               },
               order: orderParams,
+              relations: ["debitedAccountId"],
             }
           : {
               where: {
-                creditedAccountId: Number(decodedToken.id),
+                creditedAccountId: decodedToken,
               },
+              relations: ["debitedAccountId"],
             }
       );
 
@@ -111,30 +114,13 @@ export class TransactionController {
       Transactionsout?.map((e) => transações.push(e));
       Transactionsin?.map((e) => transações.push(e));
 
-      const UserTransaction = async (id: number) => {
-        const userT = await userRepository.findOneBy({
-          accountId: Number(id),
-        });
-        return String(userT?.username);
-      };
-
-      // let transaçõesFormate: any[] = [];
-      // transações.map((e) => {
-      //   let username = UserTransaction(
-      //     e.debitedAccountId === decodedToken.account.id
-      //       ? e.creditedAccountId
-      //       : e.debitedAccountId
-      //   );
-      //   transaçõesFormate = [{e, username}] ;
-      // });
-
       res
         .status(200)
         .json(
           transações.sort((a, b) => Number(a.createdAt) - Number(b.createdAt))
         );
     } catch (error: any) {
-      res.status(400).json({ message: "Deu ruim" });
+      res.status(400).json({ message: error.message });
     }
   }
 

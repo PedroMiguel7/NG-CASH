@@ -1,6 +1,8 @@
+import { Users } from './../domain/entities/User';
 import { userRepository } from "../domain/repositories/userRepository";
 import { BadRequestError } from "../helpers/api-erros";
 import { AccountRepository } from "../domain/repositories/AccountRepository";
+import { Accounts } from '../domain/entities/Account';
 
 export class AccountController {
   async CreateAccount() {

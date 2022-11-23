@@ -1,15 +1,18 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Users } from "./User";
 
 @Entity('Transactions')
 export class Transactions {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: "int" })
-  debitedAccountId: number;
+  @OneToOne(() => Users)
+  @JoinColumn()
+  debitedAccountId: Users;
 
-  @Column({ type: "int" })
-  creditedAccountId: number;
+  @OneToOne(() => Users)
+  @JoinColumn()
+  creditedAccountId: Users;
 
   @Column({ type: "float" })
   value: number;
