@@ -10,8 +10,8 @@ import Checkbox from "@mui/material/Checkbox";
 import Divider from "@mui/material/Divider";
 import Button from "@mui/material/Button";
 import * as React from "react";
-import TextField from "@mui/material/TextField";
 import { Filtros, FiltrosContainer, FiltrosHeader } from "./styles";
+import { Radio } from "@material-ui/core";
 
 function FilterPopper(props: any) {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -28,82 +28,84 @@ function FilterPopper(props: any) {
   const [checkboxState, setUnchecked] = React.useState();
 
   const limpar = () => {
-    setValue(new Date());
-    setValue2(new Date("1998-10-09"));
-    setCheckedFA(true);
-    setCheckedAN(true);
-    setCheckedCO(true);
+    setCheckedFCI(true);
+    setCheckedFCO(true);
+    setCheckedID(true);
+    setCheckedVA(false);
+    setCheckedDA(false);
+    setCheckedCE(true);
+    setCheckedDE(false);
   };
 
-  const CheckboxStyle = styled(Checkbox)({
+  const CheckboxStyle = styled(Radio)({
     color: "black",
     "&.Mui-checked": {
-      color: "#05FE3E",
+      color: "#7431F4",
     },
   });
 
-  const [checkedFA, setCheckedFA] = React.useState(true);
-  const handleChangeFA = (evento: any) => {
-    setCheckedFA(evento.target.checked);
+  const CheckboxStyleFILTER = styled(Checkbox)({
+    color: "black",
+    "&.Mui-checked": {
+      //   color: "#05FE3E",
+      color: "#7431F4",
+    },
+  });
+
+  // CHECK FILTER
+  const [checkedFCI, setCheckedFCI] = React.useState(true);
+  const handleChangeFCI = (evento: any) => {
+    setCheckedFCI(evento.target.checked);
+  };
+  const [checkedFCO, setCheckedFCO] = React.useState(true);
+  const handleChangeFCO = (evento: any) => {
+    setCheckedFCO(evento.target.checked);
   };
 
-  const [checkedAN, setCheckedAN] = React.useState(true);
-  const handleChangeAN = (evento: any) => {
-    setCheckedAN(evento.target.checked);
+  // CHECK TIPO
+  const [checkedID, setCheckedID] = React.useState(true);
+  const handleChangeID = (evento: any) => {
+    setCheckedID(evento.target.checked);
+    setCheckedVA(false);
+    setCheckedDA(false);
+  };
+  const [checkedVA, setCheckedVA] = React.useState(false);
+  const handleChangeVA = (evento: any) => {
+    setCheckedVA(evento.target.checked);
+    setCheckedID(false);
+    setCheckedDA(false);
+  };
+  const [checkedDA, setCheckedDA] = React.useState(false);
+  const handleChangeDA = (evento: any) => {
+    setCheckedDA(evento.target.checked);
+    setCheckedID(false);
+    setCheckedVA(false);
   };
 
-  const [checkedCO, setCheckedCO] = React.useState(true);
-  const handleChangeCO = (evento: any) => {
-    setCheckedCO(evento.target.checked);
+  // CHECK ORDER
+  const [checkedCE, setCheckedCE] = React.useState(true);
+  const handleChangeCE = (evento: any) => {
+    setCheckedCE(evento.target.checked);
+    setCheckedDE(false);
   };
-
-  const [value, setValue] = React.useState(new Date());
-  //const [value2, setValue2] = React.useState('1998-10-09');
-  const [value2, setValue2] = React.useState(new Date("1998-10-09"));
-
-  var projetos = props.PROJETOS;
+  const [checkedDE, setCheckedDE] = React.useState(false);
+  const handleChangeDE = (evento: any) => {
+    setCheckedDE(evento.target.checked);
+    setCheckedCE(false);
+  };
 
   function Filtrar() {
-    projetos = props.PROJETOS;
     var elementos: string[] = [];
-    if (checkedAN === true) {
-      elementos.push("Em Andamento");
+    if (checkedFCO || checkedFCI === false) {
+        checkedFCI ?  elementos.push("filter=cash-in") : elementos.push("filter=cash-out")
     }
-    if (checkedFA === true) {
-      elementos.push("A Fazer");
+    if (checkedID || checkedFCI === false) {
+        checkedFCI ?  elementos.push("filter=cash-in") : elementos.push("filter=cash-out")
     }
-    if (checkedCO === true) {
-      elementos.push("Concluido");
+    if (checkedCE || checkedDE === true) {
+        checkedCE ?  elementos.push("desc=false") : elementos.push("desc=true")
     }
-    if (elementos !== null) {
-      var novadata1 =
-        value2.getFullYear() +
-        "-" +
-        "0" +
-        (value2.getMonth() + 1) +
-        "-" +
-        value2.getDate();
-      var novadata =
-        value.getFullYear() +
-        "-" +
-        "0" +
-        (value.getMonth() + 1) +
-        "-" +
-        value.getDate();
-
-      props.SET(
-        projetos?.filter(
-          (Projetos: any) =>
-            elementos.includes(Projetos.status) &&
-            Projetos.data_criacao.slice(0, 10) >= novadata1 &&
-            Projetos.data_criacao.slice(0, 10) <= novadata
-        )
-      );
-
-      handleClose();
-    } else {
-      props.SET(projetos);
-    }
+    handleClose();
   }
 
   return (
@@ -118,7 +120,7 @@ function FilterPopper(props: any) {
                 backgroundColor: "white",
                 color: "black",
                 minWidth: "200px",
-                maxWidth: "490px",
+                maxWidth: "590px",
                 border: "2px solid",
                 borderColor: "black",
               }}
@@ -128,12 +130,12 @@ function FilterPopper(props: any) {
                   position: "relative",
                   mt: "10px",
                   "&::before": {
-                    backgroundColor: "#494A58",
+                    backgroundColor: "#05FE3E",
                     content: '""',
                     display: "block",
                     position: "absolute",
                     width: 12,
-                    height: 12,
+                    height: 10,
                     top: -6,
                     transform: "rotate(45deg)",
                     left: "calc(94% - 13px)",
@@ -148,66 +150,75 @@ function FilterPopper(props: any) {
                     </FiltrosHeader>
                     <FormGroup>
                       <FormControlLabel
-                        checked={checkedFA}
-                        onChange={handleChangeFA}
-                        control={<CheckboxStyle defaultChecked size="small" />}
+                        checked={checkedFCI}
+                        onChange={handleChangeFCI}
+                        control={
+                          <CheckboxStyleFILTER defaultChecked size="small" />
+                        }
                         label="CASH-IN"
-                        id="AFAZER"
+                        id="CASH-IN"
                       />
                       <FormControlLabel
-                        checked={checkedAN}
-                        onChange={handleChangeAN}
-                        control={<CheckboxStyle defaultChecked size="small" />}
+                        checked={checkedFCO}
+                        onChange={handleChangeFCO}
+                        control={
+                          <CheckboxStyleFILTER defaultChecked size="small" />
+                        }
                         label="CASH-OUT"
-                        id="EMANDAMENTO"
-                      />    
+                        id="CASH-OUT"
+                      />
                     </FormGroup>
                   </FiltrosContainer>
-                  <div className="d-flex align-items-center mb-2">
-                    <span className="me-5 PopperTitle">ORDER</span>
-                    <FormGroup className="PopperOptions d-flex flex-row gap-2">
+
+                  <FiltrosContainer>
+                    <FiltrosHeader>
+                      <span>TIPO</span>
+                    </FiltrosHeader>
+                    <FormGroup>
                       <FormControlLabel
-                        checked={checkedFA}
-                        onChange={handleChangeFA}
+                        checked={checkedID}
+                        onChange={handleChangeID}
                         control={<CheckboxStyle defaultChecked size="small" />}
                         label="ID"
-                        id="AFAZER"
+                        id="ID"
                       />
                       <FormControlLabel
-                        checked={checkedAN}
-                        onChange={handleChangeAN}
+                        checked={checkedVA}
+                        onChange={handleChangeVA}
                         control={<CheckboxStyle defaultChecked size="small" />}
                         label="VALOR"
-                        id="EMANDAMENTO"
+                        id="VALOR"
                       />
                       <FormControlLabel
-                        checked={checkedCO}
-                        onChange={handleChangeCO}
+                        checked={checkedDA}
+                        onChange={handleChangeDA}
                         control={<CheckboxStyle defaultChecked size="small" />}
                         label="DATA"
-                        id="CONCLUIDO"
+                        id="DATA"
                       />
                     </FormGroup>
-                  </div>
-                  <div className="d-flex align-items-center mb-2">
-                    <span className="me-5 PopperTitle">ORDER</span>
-                    <FormGroup className="PopperOptions d-flex flex-row gap-2">
+                  </FiltrosContainer>
+                  <FiltrosContainer>
+                    <FiltrosHeader>
+                      <span>ORDER</span>
+                    </FiltrosHeader>
+                    <FormGroup>
                       <FormControlLabel
-                        checked={checkedFA}
-                        onChange={handleChangeFA}
+                        checked={checkedCE}
+                        onChange={handleChangeCE}
                         control={<CheckboxStyle defaultChecked size="small" />}
                         label="CRESCENTE"
-                        id="AFAZER"
+                        id="CRESCENTE"
                       />
                       <FormControlLabel
-                        checked={checkedAN}
-                        onChange={handleChangeAN}
+                        checked={checkedDE}
+                        onChange={handleChangeDE}
                         control={<CheckboxStyle defaultChecked size="small" />}
                         label="DECRESCENTE"
-                        id="EMANDAMENTO"
+                        id="DECRESCENTE"
                       />
                     </FormGroup>
-                  </div>
+                  </FiltrosContainer>
                 </Filtros>
 
                 <Divider />
@@ -224,7 +235,7 @@ function FilterPopper(props: any) {
                     className=""
                     onClick={() => limpar()}
                   >
-                    Limpar Filtros
+                    Resetar Filtros
                   </Button>
                   <div className="d-flex align-items-center">
                     <Button

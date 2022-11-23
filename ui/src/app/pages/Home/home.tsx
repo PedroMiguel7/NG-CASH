@@ -29,36 +29,6 @@ import FilterPopper from "../../components/filter/filtro";
 export default function Home() {
   const [user, setUser]: any = useState([]);
 
-  // const [TRANSFERENCIAS, setTRANSFERENCIAS] = useState([
-  //   {
-  //     id: 1,
-  //     debitedAccountId: 1,
-  //     creditedAccountId: 2,
-  //     value: 5.76,
-  //     createdAt: "2022-11-17 13:12:18 +0000",
-  //   },
-  //   {
-  //     id: 5,
-  //     debitedAccountId: 2,
-  //     creditedAccountId: 1,
-  //     value: 125.76,
-  //     createdAt: "2022-11-17 15:12:18 +0000",
-  //   },
-  //   {
-  //     id: 2,
-  //     debitedAccountId: 1,
-  //     creditedAccountId: 2,
-  //     value: 65.76,
-  //     createdAt: "2022-11-17 15:12:18 +0000",
-  //   },
-  //   {
-  //     id: 4,
-  //     debitedAccountId: 2,
-  //     creditedAccountId: 1,
-  //     value: 15.7,
-  //     createdAt: "2022-10-18 13:12:18 +0000",
-  //   },
-  // ]);
   const [TRANSFERENCIAS, setTRANSFERENCIAS]: any = useState([]);
 
   useEffect(() => {
