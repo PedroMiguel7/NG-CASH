@@ -96,15 +96,35 @@ function FilterPopper(props: any) {
 
   function Filtrar() {
     var elementos: string[] = [];
-    if (checkedFCO || checkedFCI === false) {
-        checkedFCI ?  elementos.push("filter=cash-in") : elementos.push("filter=cash-out")
+    var result: string = "";
+    if (checkedFCO === false || checkedFCI === false) {
+      checkedFCI
+        ? elementos.push("filter=cash-in")
+        : elementos.push("filter=cash-out");
     }
-    if (checkedID || checkedFCI === false) {
-        checkedFCI ?  elementos.push("filter=cash-in") : elementos.push("filter=cash-out")
+    if (checkedID === true || checkedVA === true || checkedDA === true) {
+      checkedID
+        ? elementos.push("order=id")
+        : checkedVA
+        ? elementos.push("order=value")
+        : elementos.push("order=date");
     }
-    if (checkedCE || checkedDE === true) {
-        checkedCE ?  elementos.push("desc=false") : elementos.push("desc=true")
+    if (checkedCE === true || checkedDE === true) {
+      checkedCE ? elementos.push("desc=false") : elementos.push("desc=true");
     }
+
+    if (elementos.length === 1) {
+      result = `?${elementos[0]}`;
+      console.log("1 = " + result);
+    } else if (elementos.length === 2) {
+      result = `?${elementos[0]}&${elementos[1]}`;
+      console.log("2 = " + result);
+    } else if (elementos.length === 3) {
+      result = `?${elementos[0]}&${elementos[1]}&&${elementos[2]}`;
+      console.log("3 = " + result);
+    }
+
+    console.log(elementos);
     handleClose();
   }
 
