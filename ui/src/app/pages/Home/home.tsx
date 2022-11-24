@@ -60,18 +60,18 @@ export default function Home() {
   }, []);
 
   function updateT() {
-    const fetchTransactions = async () => {
-      try {
-        const response = await api.get(`/transaction${filterResults}`);
-        setTRANSFERENCIAS(response.data);
-      } catch (error: any) {
-        console.log(error);
-        if (error.response.status === 401) {
-          window.location.href = "/";
-        }
-      }
-    };
-    fetchTransactions();
+    // const fetchTransactions = async () => {
+    //   try {
+    //     const response = await api.get(`/transaction${filterResults}`);
+    //     setTRANSFERENCIAS(response.data);
+    //   } catch (error: any) {
+    //     console.log(error);
+    //     if (error.response.status === 401) {
+    //       window.location.href = "/";
+    //     }
+    //   }
+    // };
+    // fetchTransactions();
   }
 
   const fetchAccount = async () => {
@@ -111,6 +111,18 @@ export default function Home() {
     }
   }
 
+  const getTransactionType = (transaction: any) => {
+    if (transaction["creditedAccount"])
+      return <img src={RECEBIDO} alt="" width="44px" height="43px" />;
+    return <img src={ENVIADO} alt="" width="44px" height="43px" />;
+  };
+
+  const getUsername = (transaction: any): string => {
+    if (transaction["creditedAccount"])
+      return transaction.creditedAccount.username;
+    return transaction.debitedAccount.username;
+  };
+
   return (
     <Container>
       <SideBar></SideBar>
@@ -119,7 +131,7 @@ export default function Home() {
           <H>Olá, {user ? user?.username : "user"}</H>
           <Saldo>
             SALDO: R$
-            {user ? user?.accountId?.balance : "saldo indisponivel"}
+            {user ? user?.account?.balance : "saldo indisponivel"}
           </Saldo>
         </Header>
         <NEWTr>
@@ -151,16 +163,14 @@ export default function Home() {
             TRANSFERENCIASFl.map((e) => (
               <Transferencia>
                 <TRicon>
-                  {e.creditedAccountId === user?.id ? (
-                    <img src={RECEBIDO} alt="" width="44px" height="43px" />
-                  ) : (
-                    <img src={ENVIADO} alt="" width="44px" height="43px" />
-                  )}
+                  {e?.creditedAccount
+                    ? getTransactionType(e)
+                    : getTransactionType(e)}
                 </TRicon>
                 <TRdados>
                   <TRhead>
                     <div>
-                      {e.creditedAccountId === user?.id
+                      {e?.creditedAccount
                         ? "Transferência recebida "
                         : "Transferência enviada"}
                     </div>
@@ -172,9 +182,7 @@ export default function Home() {
                     </TRdata>
                   </TRhead>
                   <TRnome>
-                    {e.creditedAccountId === user?.id
-                      ? e.debitedAccountId?.username
-                      : e.creditedAccountId.username}
+                    {e?.creditedAccount ? getUsername(e) : getUsername(e)}
                   </TRnome>
                   <TRvalor>R$ {e.value}</TRvalor>
                 </TRdados>

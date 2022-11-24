@@ -36,7 +36,7 @@ export class UserController {
       const newUser = userRepository.create({
         username,
         password: criptopass,
-        accountId: accountId,
+        account: accountId,
       });
 
       await userRepository.save(newUser);
@@ -54,16 +54,19 @@ export class UserController {
       const token: any = req.headers.authorization;
       const decodedToken: any = verify(token, String(process.env.JWT_PASS));
 
-      const user = await userRepository.findOneBy({
-        id: Number(decodedToken.id),
+      const user = await userRepository.findOne({
+        where: {
+          id: Number(decodedToken.user.id),
+        },
+        relations: ["account"],
       });
       if (!user) {
         throw new BadRequestError("User not found");
       }
 
       var account;
-      if (user.accountId) {
-        account = await new AccountController().ListAccount(user.accountId.id);
+      if (user.account) {
+        account = await new AccountController().ListAccount(user.account.id);
       }
 
       let { password: _, ...USER } = user;
@@ -91,7 +94,7 @@ export class UserController {
       const decodedToken: any = verify(token, String(process.env.JWT_PASS));
 
       const user = await userRepository.findOneBy({
-        id: Number(decodedToken.id),
+        id: Number(decodedToken.user.id),
       });
 
       if (!user) {
@@ -101,7 +104,7 @@ export class UserController {
       await userRepository
         .createQueryBuilder()
         .update({ username: username })
-        .where({ id: decodedToken.id })
+        .where({ id: decodedToken.user.id })
         .execute();
 
       const { password: _, ...userResponse } = user;
@@ -117,17 +120,17 @@ export class UserController {
       const token: any = req.headers.authorization;
       const decodedToken: any = verify(token, String(process.env.JWT_PASS));
       const user = await userRepository.findOneBy({
-        id: Number(decodedToken.id),
+        id: Number(decodedToken.user.id),
       });
 
       if (!user) {
         throw new BadRequestError("User not found");
       }
 
-      userRepository.delete(decodedToken.id);
+      userRepository.delete(decodedToken.user.id);
 
       const accountId = await new AccountController().DelAccount(
-        user.accountId.id
+        user.account.id
       );
 
       return res.status(200).json({ message: "sucess delete" });

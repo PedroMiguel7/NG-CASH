@@ -1,3 +1,4 @@
+import { Accounts } from "./../domain/entities/Account";
 import { userRepository } from "./../domain/repositories/userRepository";
 import { Response } from "express";
 import { Request } from "express";
@@ -10,7 +11,10 @@ export class LoginController {
     try {
       const { username, password } = req.body;
 
-      const user = await userRepository.findOneBy({ username });
+      const user = await userRepository.findOne({
+        where: { username },
+        relations: ["account"],
+      });
       if (!user) {
         throw new Error("Invalid email or password");
       }
@@ -19,13 +23,8 @@ export class LoginController {
         throw new Error("Invalid email or password");
       }
 
-      var account;
-      if (user.accountId) {
-        account = await new AccountController().ListAccount(user.accountId.id);
-      }
-
       const token = jwt.sign(
-        { id: user.id, username: user.username, account: account },
+        { user },
         process.env.JWT_PASS ?? "",
         { expiresIn: "24h" }
       );

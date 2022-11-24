@@ -1,3 +1,4 @@
+import { Users } from "./../domain/entities/User";
 import { AccountController } from "./AccountController";
 import { userRepository } from "../domain/repositories/userRepository";
 import { BadRequestError } from "../helpers/api-erros";
@@ -13,21 +14,25 @@ export class TransactionController {
       const token: any = req.headers.authorization;
       const decodedToken: any = verify(token, String(process.env.JWT_PASS));
 
-      const userExistIN = await userRepository.findOneBy({
-        username: usernameIN,
+      const userExistIN = await userRepository.findOne({
+        where: {
+          username: usernameIN,
+        },
+        relations: ["account"],
       });
+
       if (!userExistIN) {
         throw new BadRequestError("user not exists");
       }
-      if (Number(decodedToken.id) === userExistIN.id) {
+      if (Number(decodedToken.user.id) === userExistIN.id) {
         return res.status(400).json({ message: "Cannot transfer to yourself" });
       }
 
       const accountIdOUT = await new AccountController().ListAccount(
-        decodedToken.accountId.id
+        decodedToken.user.account.id
       );
       const accountIdIN = await new AccountController().ListAccount(
-        userExistIN.accountId.id
+        userExistIN.account.id
       );
 
       if (!accountIdOUT || !accountIdIN) {
@@ -48,8 +53,8 @@ export class TransactionController {
       );
 
       const newTransaction = TransactionRepository.create({
-        debitedAccountId: accountIdOUT,
-        creditedAccountId: accountIdIN,
+        debitedAccount: accountIdOUT,
+        creditedAccount: accountIdIN,
         value,
       });
 
@@ -74,16 +79,16 @@ export class TransactionController {
         filter || order || desc
           ? {
               where: {
-                debitedAccountId: decodedToken.id,
+                debitedAccount: decodedToken.user,
               },
+              relations: { creditedAccount: true },
               order: orderParams,
-              relations: ["creditedAccountId"],
             }
           : {
               where: {
-                debitedAccountId: decodedToken.id,
+                debitedAccount: decodedToken.user,
               },
-              relations: ["creditedAccountId"],
+              relations: { creditedAccount: true },
             }
       );
 
@@ -91,16 +96,16 @@ export class TransactionController {
         filter || order || desc
           ? {
               where: {
-                creditedAccountId: decodedToken,
+                creditedAccount: decodedToken.user,
               },
+              relations: { debitedAccount: true },
               order: orderParams,
-              relations: ["debitedAccountId"],
             }
           : {
               where: {
-                creditedAccountId: decodedToken,
+                creditedAccount: decodedToken.user,
               },
-              relations: ["debitedAccountId"],
+              relations: { debitedAccount: true },
             }
       );
 
@@ -110,14 +115,18 @@ export class TransactionController {
           return res.status(200).json(Transactionsin);
       }
 
-      const transações: any[] = [];
-      Transactionsout?.map((e) => transações.push(e));
-      Transactionsin?.map((e) => transações.push(e));
+      const transacoes: any[] = [];
+      Transactionsout?.map((e) => transacoes.push(e));
+      Transactionsin?.map((e) => transacoes.push(e));
+
+      console.log(decodedToken);
+      console.log("out = " + Transactionsout);
+      console.log("in = " + Transactionsin);
 
       res
         .status(200)
         .json(
-          transações.sort((a, b) => Number(a.createdAt) - Number(b.createdAt))
+          transacoes.sort((a, b) => Number(a.createdAt) - Number(b.createdAt))
         );
     } catch (error: any) {
       res.status(400).json({ message: error.message });

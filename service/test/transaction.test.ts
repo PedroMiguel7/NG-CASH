@@ -34,13 +34,13 @@ describe("Testes de transferências", () => {
     const responseuser = await request(server).post("/user").send(userB);
 
     let transaction = {
-      accountId: `${user_id_A}`,
+      account: `${user_id_A}`,
       usernameIN: `${responseuser.body.username}`,
       value: 2,
     };
 
     const response = await request(server)
-      .post(`/transaction/${transaction.accountId}`)
+      .post(`/transaction/${transaction.account}`)
       .send(transaction)
       .set("Authorization", `bearer ${token}`);
     expect(response.status).toBe(200);
