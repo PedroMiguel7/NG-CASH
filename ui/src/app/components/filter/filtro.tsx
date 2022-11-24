@@ -96,7 +96,6 @@ function FilterPopper(props: any) {
 
   function Filtrar() {
     var elementos: string[] = [];
-    var result: string = "";
     if (checkedFCO === false || checkedFCI === false) {
       checkedFCI
         ? elementos.push("filter=cash-in")
@@ -114,17 +113,13 @@ function FilterPopper(props: any) {
     }
 
     if (elementos.length === 1) {
-      result = `?${elementos[0]}`;
-      console.log("1 = " + result);
+      props.filterResults(`?${elementos[0]}`);
     } else if (elementos.length === 2) {
-      result = `?${elementos[0]}&${elementos[1]}`;
-      console.log("2 = " + result);
+      props.filterResults(`?${elementos[0]}&${elementos[1]}`);
     } else if (elementos.length === 3) {
-      result = `?${elementos[0]}&${elementos[1]}&&${elementos[2]}`;
-      console.log("3 = " + result);
+      props.filterResults(`?${elementos[0]}&${elementos[1]}&&${elementos[2]}`);
     }
-
-    console.log(elementos);
+    props.updateT();
     handleClose();
   }
 

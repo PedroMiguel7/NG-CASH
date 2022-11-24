@@ -30,6 +30,7 @@ export default function Home() {
   const [user, setUser]: any = useState([]);
 
   const [TRANSFERENCIAS, setTRANSFERENCIAS]: any = useState([]);
+  const [filterResults, setFilterResults]: any = useState("");
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -46,7 +47,7 @@ export default function Home() {
     fetchUser();
     const fetchTransactions = async () => {
       try {
-        const response = await api.get(`/transaction`);
+        const response = await api.get(`/transaction${filterResults}`);
         setTRANSFERENCIAS(response.data);
       } catch (error: any) {
         console.log(error);
@@ -57,6 +58,21 @@ export default function Home() {
     };
     fetchTransactions();
   }, []);
+
+  function updateT() {
+    const fetchTransactions = async () => {
+      try {
+        const response = await api.get(`/transaction${filterResults}`);
+        setTRANSFERENCIAS(response.data);
+      } catch (error: any) {
+        console.log(error);
+        if (error.response.status === 401) {
+          window.location.href = "/";
+        }
+      }
+    };
+    fetchTransactions();
+  }
 
   const fetchAccount = async () => {
     try {
@@ -103,7 +119,7 @@ export default function Home() {
           <H>Olá, {user ? user?.username : "user"}</H>
           <Saldo>
             SALDO: R$
-            {user ? user?.account?.balance : "saldo indisponivel"}
+            {user ? user?.accountId?.balance : "saldo indisponivel"}
           </Saldo>
         </Header>
         <NEWTr>
@@ -112,7 +128,10 @@ export default function Home() {
         <Transferencias>
           <TransferenciaHeader>
             <P>Últimas Transferências</P>
-            <FilterPopper></FilterPopper>
+            <FilterPopper
+              filterResults={setFilterResults}
+              updateT={updateT()}
+            ></FilterPopper>
           </TransferenciaHeader>
           <div className="search">
             <div className="searchIcon">
@@ -152,7 +171,11 @@ export default function Home() {
                       })}
                     </TRdata>
                   </TRhead>
-                  {/* <TRnome>{e.username}</TRnome> */}
+                  <TRnome>
+                    {e.creditedAccountId === user?.id
+                      ? e.debitedAccountId?.username
+                      : e.creditedAccountId.username}
+                  </TRnome>
                   <TRvalor>R$ {e.value}</TRvalor>
                 </TRdados>
               </Transferencia>
