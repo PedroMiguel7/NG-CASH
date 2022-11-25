@@ -123,14 +123,6 @@ export class TransactionController {
       Transactionsout?.map((e) => transacoes.push(e));
       Transactionsin?.map((e) => transacoes.push(e));
 
-      if (order !== "data") {
-        return res
-          .status(200)
-          .json(
-            transacoes.sort((a, b) => Number(a.createdAt) - Number(b.createdAt))
-          );
-      }
-
       return res.status(200).json(transacoes);
     } catch (error: any) {
       return res.status(400).json({ message: error.message });

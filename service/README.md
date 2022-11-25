@@ -129,9 +129,9 @@ obs:
 
 ## Transaction
 
-| GET               | POST             |
-| ----------------- | ---------------- |
-| /transaction      | /transaction     |
+| GET          | POST         |
+| ------------ | ------------ |
+| /transaction | /transaction |
 
 - `/Transaction` The _POST_ function will make a transaction between two users, one will be cashed out and the other cashed in:
 
@@ -198,7 +198,7 @@ obs: [Filters]() e ordinances were made with query parameters passed in the rout
 - [id](#id) + true: `/Transaction?order=id&desc=true`, returns user transfers in descending order of id.
 - value + false: `/Transaction?order=value&desc=false`, returns user transfers in ascending order of value.
 - value + true: `/Transaction?order=value&desc=true`, returns user transfers in descending order of value.
-- [date](#date) + false: `/Transaction?order=date&desc=false`, returns user transfers in ascending order of date.
-- [date](#date) + true: `/Transaction?order=date&desc=true`, returns user transfers in descending order of date.
+- [date](#date) + false: `/Transaction?order=createdAt&desc=false`, returns user transfers in ascending order of date.
+- [date](#date) + true: `/Transaction?order=createdAt&desc=true`, returns user transfers in descending order of date.
 
 obs: any desired field placed in the [order](#order) will be filtered, filters and sorting can be added in the same route.
