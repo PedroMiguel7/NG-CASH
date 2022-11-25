@@ -15,6 +15,7 @@ import {
   Saldo,
   NEWTr,
   TransferenciaHeader,
+  TransferenciasScroll,
 } from "./styles";
 import { InputBase } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
@@ -30,7 +31,6 @@ export default function Home() {
   const [user, setUser]: any = useState([]);
 
   const [TRANSFERENCIAS, setTRANSFERENCIAS]: any = useState([]);
-  const [filterResults, setFilterResults]: any = useState("");
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -47,7 +47,7 @@ export default function Home() {
     fetchUser();
     const fetchTransactions = async () => {
       try {
-        const response = await api.get(`/transaction${filterResults}`);
+        const response = await api.get(`/transaction`);
         setTRANSFERENCIAS(response.data);
       } catch (error: any) {
         console.log(error);
@@ -59,32 +59,7 @@ export default function Home() {
     fetchTransactions();
   }, []);
 
-  function updateT() {
-    // const fetchTransactions = async () => {
-    //   try {
-    //     const response = await api.get(`/transaction${filterResults}`);
-    //     setTRANSFERENCIAS(response.data);
-    //   } catch (error: any) {
-    //     console.log(error);
-    //     if (error.response.status === 401) {
-    //       window.location.href = "/";
-    //     }
-    //   }
-    // };
-    // fetchTransactions();
-  }
-
-  const fetchAccount = async () => {
-    try {
-      const response = await api.get(`/user/account`);
-      setUser(response.data);
-    } catch (error: any) {
-      console.log(error);
-      if (error.response.status === 401) {
-        window.location.href = "/";
-      }
-    }
-  };
+  
 
   const [filter, setFilter] = useState("");
   const handleChange = (event: any) => {
@@ -96,8 +71,17 @@ export default function Home() {
   if (filter) {
     const exp = eval(`/${filter.replace(/[^\d\w]+/, ".*")}/i`);
     TRANSFERENCIASFl = TRANSFERENCIAS?.filter(
-      (tr: { value: any; createdAt: string | number | Date }) =>
-        // exp.test(tr.username.toUpperCase()) ||
+      (tr: {
+        value: any;
+        createdAt: string | number | Date;
+        creditedAccount: any;
+        debitedAccount: any;
+      }) =>
+        exp.test(
+          tr?.creditedAccount
+            ? tr?.creditedAccount?.username.toUpperCase()
+            : tr?.debitedAccount?.username.toUpperCase()
+        ) ||
         exp.test(tr.value) ||
         exp.test(
           new Date(tr.createdAt).toLocaleString("pt-BR", {
@@ -141,8 +125,7 @@ export default function Home() {
           <TransferenciaHeader>
             <P>Últimas Transferências</P>
             <FilterPopper
-              filterResults={setFilterResults}
-              updateT={updateT()}
+              setTRANSFERENCIAS={setTRANSFERENCIAS}
             ></FilterPopper>
           </TransferenciaHeader>
           <div className="search">
@@ -159,38 +142,40 @@ export default function Home() {
               inputProps={{ "aria-label": "search" }}
             />
           </div>
-          {TRANSFERENCIASFl ? (
-            TRANSFERENCIASFl.map((e) => (
-              <Transferencia>
-                <TRicon>
-                  {e?.creditedAccount
-                    ? getTransactionType(e)
-                    : getTransactionType(e)}
-                </TRicon>
-                <TRdados>
-                  <TRhead>
-                    <div>
-                      {e?.creditedAccount
-                        ? "Transferência recebida "
-                        : "Transferência enviada"}
-                    </div>
-                    <TRdata>
-                      {new Date(e.createdAt).toLocaleString("pt-BR", {
-                        day: "2-digit",
-                        month: "short",
-                      })}
-                    </TRdata>
-                  </TRhead>
-                  <TRnome>
-                    {e?.creditedAccount ? getUsername(e) : getUsername(e)}
-                  </TRnome>
-                  <TRvalor>R$ {e.value}</TRvalor>
-                </TRdados>
-              </Transferencia>
-            ))
-          ) : (
-            <div>sem transferencia</div>
-          )}
+          <TransferenciasScroll>
+            {TRANSFERENCIASFl ? (
+              TRANSFERENCIASFl.map((e) => (
+                <Transferencia key={e.id}>
+                  <TRicon>
+                    {e?.creditedAccount
+                      ? getTransactionType(e)
+                      : getTransactionType(e)}
+                  </TRicon>
+                  <TRdados>
+                    <TRhead>
+                      <div>
+                        {e?.creditedAccount
+                          ? "Transferência recebida "
+                          : "Transferência enviada"}
+                      </div>
+                      <TRdata>
+                        {new Date(e.createdAt).toLocaleString("pt-BR", {
+                          day: "2-digit",
+                          month: "short",
+                        })}
+                      </TRdata>
+                    </TRhead>
+                    <TRnome>
+                      {e?.creditedAccount ? getUsername(e) : getUsername(e)}
+                    </TRnome>
+                    <TRvalor>R$ {e.value}</TRvalor>
+                  </TRdados>
+                </Transferencia>
+              ))
+            ) : (
+              <div>sem transferencia</div>
+            )}
+          </TransferenciasScroll>
         </Transferencias>
       </HomeContainer>
     </Container>

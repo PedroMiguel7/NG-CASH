@@ -7,7 +7,7 @@ export const Paper = styled.div`
   position: absolute;
   width: 40vw;
   height: 50vh;
-  background-color: #FCFCFC;
+  background-color: #fcfcfc;
   border: 2px solid #000;
   padding: 10px;
 `;

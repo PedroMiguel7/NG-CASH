@@ -16,4 +16,3 @@ export const FiltrosHeader = styled.div`
   display: flex;
   margin-left: 4px;
 `;
-

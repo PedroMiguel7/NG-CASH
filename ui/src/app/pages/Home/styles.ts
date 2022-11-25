@@ -35,9 +35,14 @@ export const NEWTr = styled.div`
 `;
 
 export const Transferencias = styled.div`
-  width: 50%;
+  width: 60%;
   margin-left: 20px;
   margin-top: 20px;
+  overflow: hidden;
+`;
+
+export const TransferenciasScroll = styled.div`
+  height: 50%;
 `;
 
 export const P = styled.div`

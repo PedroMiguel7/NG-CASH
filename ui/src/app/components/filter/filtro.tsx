@@ -12,6 +12,8 @@ import Button from "@mui/material/Button";
 import * as React from "react";
 import { Filtros, FiltrosContainer, FiltrosHeader } from "./styles";
 import { Radio } from "@material-ui/core";
+import { useEffect } from "react";
+import api from "../../services/api";
 
 function FilterPopper(props: any) {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -96,6 +98,7 @@ function FilterPopper(props: any) {
 
   function Filtrar() {
     var elementos: string[] = [];
+    var filterResults: string;
     if (checkedFCO === false || checkedFCI === false) {
       checkedFCI
         ? elementos.push("filter=cash-in")
@@ -106,20 +109,34 @@ function FilterPopper(props: any) {
         ? elementos.push("order=id")
         : checkedVA
         ? elementos.push("order=value")
-        : elementos.push("order=date");
+        : elementos.push("order=createdAt");
     }
     if (checkedCE === true || checkedDE === true) {
       checkedCE ? elementos.push("desc=false") : elementos.push("desc=true");
     }
 
     if (elementos.length === 1) {
-      props.filterResults(`?${elementos[0]}`);
+      filterResults = `?${elementos[0]}`;
     } else if (elementos.length === 2) {
-      props.filterResults(`?${elementos[0]}&${elementos[1]}`);
+      filterResults = `?${elementos[0]}&${elementos[1]}`;
     } else if (elementos.length === 3) {
-      props.filterResults(`?${elementos[0]}&${elementos[1]}&&${elementos[2]}`);
+      filterResults = `?${elementos[0]}&${elementos[1]}&&${elementos[2]}`;
     }
-    props.updateT();
+
+    const updateT = async () => {
+      try {
+        const response = await api.get(`/transaction${filterResults}`);
+        props.setTRANSFERENCIAS(response.data);
+      } catch (error: any) {
+        console.log(error);
+        if (error.response.status === 401) {
+          window.location.href = "/";
+        }
+      }
+    };
+
+    updateT();
+
     handleClose();
   }
 

@@ -1,4 +1,4 @@
-import { Paper, Twobuttons } from "./styles";
+import { Twobuttons } from "./styles";
 import TextField from "@mui/material/TextField";
 import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
@@ -59,15 +59,23 @@ function Transaction() {
   const [usernameT, setUsernameT] = useState("");
   const [value, setValue] = useState();
   const [error, setError] = useState("");
-  const [open, setOpen] = useState(false);
-  const [openAlert, setOpenAlert] = useState(false);
 
+  const [open, setOpen] = useState(false);
   const handleOpen = () => {
     setOpen(true);
   };
-
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const [openAlertError, setOpenAlertError] = useState(false);
+  const handleCloseAlertError = () => {
+    setOpenAlertError(false);
+  };
+
+  const [openAlert, setOpenAlert] = useState(false);
+  const handleCloseAlert = () => {
+    setOpenAlert(false);
   };
 
   const transferir = (e: any) => {
@@ -81,7 +89,10 @@ function Transaction() {
         setOpenAlert(true);
         setOpen(false);
       })
-      .catch((err: any) => alert(err));
+      .catch((err: any) => {
+        setOpenAlertError(true);
+        setError(err.message);
+      });
   };
 
   return (
@@ -190,18 +201,27 @@ function Transaction() {
                 </Twobuttons>
               </form>
             </Box>
-            <Snackbar
-              open={openAlert}
-              autoHideDuration={6000}
-              onClose={handleClose}
-            >
-              <Alert onClose={handleClose} severity="success">
-                This is a success message!
-              </Alert>
-            </Snackbar>
           </>
         }
       </Modal>
+      <Snackbar
+        open={openAlert}
+        autoHideDuration={6000}
+        onClose={handleCloseAlert}
+      >
+        <Alert onClose={handleCloseAlert} severity="success">
+          This is a success message!
+        </Alert>
+      </Snackbar>
+      <Snackbar
+        open={openAlertError}
+        autoHideDuration={6000}
+        onClose={handleCloseAlertError}
+      >
+        <Alert onClose={handleCloseAlertError} severity="error">
+          {error}
+        </Alert>
+      </Snackbar>
     </>
   );
 }
