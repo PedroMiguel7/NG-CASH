@@ -82,11 +82,11 @@ export class TransactionController {
       const Transactionsout = await TransactionRepository.find(
         filter || order || desc
           ? {
+              order: orderParams,
               where: {
                 debitedAccount: usernew,
               },
               relations: { creditedAccount: true },
-              order: orderParams,
             }
           : {
               where: {
@@ -99,11 +99,11 @@ export class TransactionController {
       const Transactionsin = await TransactionRepository.find(
         filter || order || desc
           ? {
+              order: orderParams,
               where: {
                 creditedAccount: usernew,
               },
               relations: { debitedAccount: true },
-              order: orderParams,
             }
           : {
               where: {
@@ -123,17 +123,17 @@ export class TransactionController {
       Transactionsout?.map((e) => transacoes.push(e));
       Transactionsin?.map((e) => transacoes.push(e));
 
-      console.log(decodedToken);
-      console.log("out = " + Transactionsout);
-      console.log("in = " + Transactionsin);
+      if (order !== "data") {
+        return res
+          .status(200)
+          .json(
+            transacoes.sort((a, b) => Number(a.createdAt) - Number(b.createdAt))
+          );
+      }
 
-      res
-        .status(200)
-        .json(
-          transacoes.sort((a, b) => Number(a.createdAt) - Number(b.createdAt))
-        );
+      return res.status(200).json(transacoes);
     } catch (error: any) {
-      res.status(400).json({ message: error.message });
+      return res.status(400).json({ message: error.message });
     }
   }
 
