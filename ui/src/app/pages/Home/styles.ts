@@ -43,7 +43,7 @@ export const Transferencias = styled.div`
 
 export const TransferenciasScroll = styled.div`
   height: 50%;
-  overflow: scroll;
+  overflow-y: scroll;
 `;
 
 export const P = styled.div`
