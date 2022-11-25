@@ -3,6 +3,7 @@ import { createGlobalStyle } from "styled-components";
 export default createGlobalStyle`
     :root {
         --inter: 'Inter', sans-serif;
+        --corBotao: black;
     }
 
     * {
@@ -17,9 +18,6 @@ export default createGlobalStyle`
         border-radius: 6px;
         border-bottom-right-radius: 5px;
     } 
-    ::-webkit-scrollbar-hover{
-        background-color: var(--laranja);
-    }
 
     ::-webkit-scrollbar-thumb{
         background-color: #40404F;
@@ -41,10 +39,6 @@ export default createGlobalStyle`
         box-shadow: 0 30px 60px rgb(0, 0, 0, 0.3);
         min-width: 60px;
         z-index: 5;
-    }
-
-    main h1 {
-        color: var(--laranja);
     }
 
     input:-webkit-autofill,

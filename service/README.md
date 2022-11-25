@@ -66,9 +66,9 @@
 
 ### USER
 
-| GET        | POST   | PUT        | DELETE     |
-| ---------- | ------ | ---------- | ---------- |
-| /user/:id/ | /user/ | /user/:id/ | /user/:id/ |
+| GET   | POST  | PUT   | DELETE     |
+| ----- | ----- | ----- | ---------- |
+| /user | /user | /user | /user/:id/ |
 
 - `/user/` The _POST_ function creates a new user with the following data:
 
@@ -87,7 +87,7 @@ obs:
 
 <br></br>
 
-- `/user/1 ` The _GET_ function returns basic user data and your account:
+- `/user ` The _GET_ function returns basic user data and your account:
 
 ```json
 {
@@ -102,7 +102,7 @@ obs:
 
 <br></br>
 
-- `/user/1 ` The _PUT_ function allows changing the user's username the following data:
+- `/user ` The _PUT_ function allows changing the user's username the following data:
 
 ```json
 {
@@ -129,33 +129,31 @@ obs:
 
 ## Transaction
 
-| GET               | POST             |
-| ----------------- | ---------------- |
-| /transaction/:id/ | /transaction/:id |
+| GET          | POST         |
+| ------------ | ------------ |
+| /transaction | /transaction |
 
-- `/Transaction/1` The _POST_ function will make a transaction between two users, one will be cashed out and the other cashed in:
+- `/Transaction` The _POST_ function will make a transaction between two users, one will be cashed out and the other cashed in:
 
 ```json
 {
-  "debitedAccountId": 1,
-  "creditedAccountId": 2,
-  "value": 25.76
+  "usernameIN": "admin2",
+  "value": 10
 }
 ```
 
 obs:
-1 - In the route, the id of the user who will suffer [cash-out](#cashout) must be sent.
-2 - The transfer can only be made if the amount is less than or equal to the user's cashout balance.
+1 - The transfer can only be made if the amount is less than or equal to the user's cashout balance.
 
 <br></br>
 
-- `/Transaction/1` the _GET_ function returns all incoming and outgoing transfers from a user, where the id will be that of the user:
+- `/Transaction` the _GET_ function returns all incoming and outgoing transfers from a user, where the id will be that of the user:
 
 return:
 
 ```json
 {
-  "debited": {
+
     {
       "id": 1,
       "debitedAccountId": 1,
@@ -169,9 +167,7 @@ return:
       "creditedAccountId": 2,
       "value": 25.76,
       "createdAt": "2022-11-17 15:12:18 +0000"
-    }
-  },
-  "credited": {
+    },
     {
       "id": 4,
       "debitedAccountId": 2,
@@ -186,7 +182,6 @@ return:
       "value": 25.76,
       "createdAt": "2022-11-17 15:12:18 +0000"
     }
-  }
 }
 ```
 
@@ -194,16 +189,16 @@ obs: [Filters]() e ordinances were made with query parameters passed in the rout
 
 1 - FILTER:
 
-- cash-in: `/Transaction/1?filter=cash-in`, returns all transfers received by the user.
-- cash-ou: `/Transaction/1?filter=cash-out`, returns all transfers sent by the user.
+- cash-in: `/Transaction?filter=cash-in`, returns all transfers received by the user.
+- cash-ou: `/Transaction?filter=cash-out`, returns all transfers sent by the user.
 
 2 - ORDER + DESC:
 
-- [id](#id) + false: `/Transaction/1?order=id&desc=false`, returns user transfers in ascending id order.
-- [id](#id) + true: `/Transaction/1?order=id&desc=true`, returns user transfers in descending order of id.
-- value + false: `/Transaction/1?order=value&desc=false`, returns user transfers in ascending order of value.
-- value + true: `/Transaction/1?order=value&desc=true`, returns user transfers in descending order of value.
-- [date](#date) + false: `/Transaction/1?order=date&desc=false`, returns user transfers in ascending order of date.
-- [date](#date) + true: `/Transaction/1?order=date&desc=true`, returns user transfers in descending order of date.
+- [id](#id) + false: `/Transaction?order=id&desc=false`, returns user transfers in ascending id order.
+- [id](#id) + true: `/Transaction?order=id&desc=true`, returns user transfers in descending order of id.
+- value + false: `/Transaction?order=value&desc=false`, returns user transfers in ascending order of value.
+- value + true: `/Transaction?order=value&desc=true`, returns user transfers in descending order of value.
+- [date](#date) + false: `/Transaction?order=createdAt&desc=false`, returns user transfers in ascending order of date.
+- [date](#date) + true: `/Transaction?order=createdAt&desc=true`, returns user transfers in descending order of date.
 
 obs: any desired field placed in the [order](#order) will be filtered, filters and sorting can be added in the same route.

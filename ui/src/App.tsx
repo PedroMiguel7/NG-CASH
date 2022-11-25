@@ -4,7 +4,7 @@ import { ThemeProvider } from "styled-components";
 import GlobalStyles from "./app/styles/global";
 import { darkTheme, lightTheme } from "./app/styles/theme";
 import { Rout } from "./app/store/routes";
-import useTema from "./app/components/Sidebar/Teminha";
+import useTema from "./app/components/Teminha";
 import SideBar from "./app/components/Sidebar/sidebar";
 
 

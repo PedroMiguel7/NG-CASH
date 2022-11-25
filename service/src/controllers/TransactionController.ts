@@ -1,50 +1,60 @@
+import { Users } from "./../domain/entities/User";
 import { AccountController } from "./AccountController";
 import { userRepository } from "../domain/repositories/userRepository";
 import { BadRequestError } from "../helpers/api-erros";
 import { Response } from "express";
 import { Request } from "express";
+import { verify } from "jsonwebtoken";
 import { TransactionRepository } from "../domain/repositories/TransactionRespository";
 
 export class TransactionController {
   async CreateTransaction(req: Request, res: Response) {
     try {
-      const { user_id } = req.params;
-      const { accountId, usernameIN, value } = req.body;
+      const { usernameIN, value } = req.body;
+      const token: any = req.headers.authorization;
+      const decodedToken: any = verify(token, String(process.env.JWT_PASS));
 
-      const userExistIN = await userRepository.findOneBy({
-        username: usernameIN,
+      const userExistIN = await userRepository.findOne({
+        where: {
+          username: usernameIN,
+        },
+        relations: ["account"],
       });
+
       if (!userExistIN) {
         throw new BadRequestError("user not exists");
       }
-      if (Number(user_id) === userExistIN.id) {
+      if (Number(decodedToken.user.id) === userExistIN.id) {
         return res.status(400).json({ message: "Cannot transfer to yourself" });
       }
 
-      const accountIdOUT = await new AccountController().ListAccount(accountId);
-      const accountIdIN = await new AccountController().ListAccount(
-        userExistIN.accountId
+      const accountIdOUT = await new AccountController().ListAccount(
+        decodedToken.user.account.id
       );
+      const accountIdIN = await new AccountController().ListAccount(
+        userExistIN.account.id
+      );
+
       if (!accountIdOUT || !accountIdIN) {
         return res.status(400).json({ message: "Account not exists" });
       }
 
-      if (accountIdOUT?.balance < value) {
+      if (accountIdOUT?.balance < value || value <= 0) {
         return res.status(400).json({ message: "Insufficient funds" });
       }
 
       await new AccountController().UpdateAccount(
         accountIdOUT?.id,
-        accountIdOUT?.balance - value
+        Number(accountIdOUT?.balance) - Number(value)
       );
       await new AccountController().UpdateAccount(
         accountIdIN?.id,
-        accountIdIN?.balance + value
+        Number(accountIdIN?.balance) + Number(value)
       );
 
       const newTransaction = TransactionRepository.create({
-        debitedAccountId: accountIdOUT?.id,
-        creditedAccountId: accountIdIN?.id,
+        debitedAccount: accountIdOUT,
+        creditedAccount: accountIdIN,
         value,
       });
 
@@ -52,43 +62,70 @@ export class TransactionController {
 
       return res.status(201).json(newTransaction);
     } catch (error: any) {
-      res.status(400).json({ message: "Deu ruim" });
+      res.status(400).json({ message: error.message });
     }
   }
 
   async ListTransaction(req: Request, res: Response) {
     try {
-      const { id } = req.params;
+      const token: any = req.headers.authorization;
+      const decodedToken: any = verify(token, String(process.env.JWT_PASS));
       const { filter, order, desc } = req.query;
 
-      let orderParams: any = {}
-      orderParams[String(order)] = desc === 'false' ? "ASC": "DESC"
+      let orderParams: any = {};
+      orderParams[String(order)] = desc === "false" ? "ASC" : "DESC";
 
-      const Transactionsout = await TransactionRepository.find({
-        where: {
-          debitedAccountId: Number(id)
-        }, order: orderParams
-      });
-      const Transactionsin = await TransactionRepository.find({
-        where: {
-          creditedAccountId: Number(id)
-        }, order: orderParams
-      });
-      if (!Transactionsout) {
-        throw new BadRequestError("Transactions not found");
+      const user = decodedToken.user;
+
+      const { account: _, ...usernew } = user;
+
+      const Transactionsout = await TransactionRepository.find(
+        filter || order || desc
+          ? {
+              order: orderParams,
+              where: {
+                debitedAccount: usernew,
+              },
+              relations: { creditedAccount: true },
+            }
+          : {
+              where: {
+                debitedAccount: usernew,
+              },
+              relations: { creditedAccount: true },
+            }
+      );
+
+      const Transactionsin = await TransactionRepository.find(
+        filter || order || desc
+          ? {
+              order: orderParams,
+              where: {
+                creditedAccount: usernew,
+              },
+              relations: { debitedAccount: true },
+            }
+          : {
+              where: {
+                creditedAccount: usernew,
+              },
+              relations: { debitedAccount: true },
+            }
+      );
+
+      if (filter) {
+        if (filter === "cash-out") return res.status(200).json(Transactionsout);
+        else if (filter === "cash-in")
+          return res.status(200).json(Transactionsin);
       }
-      if (!Transactionsin) {
-        throw new BadRequestError("Transactions not found");
-      }
 
-      if (filter === "cash-out") return res.status(200).json(Transactionsout);
-      else if (filter === "cash-in") return res.status(200).json(Transactionsin);
-      else return res.status(200).json(
-        {cashOut: Transactionsout, cashIn: Transactionsin}
-        );
+      const transacoes: any[] = [];
+      Transactionsout?.map((e) => transacoes.push(e));
+      Transactionsin?.map((e) => transacoes.push(e));
 
+      return res.status(200).json(transacoes);
     } catch (error: any) {
-      res.status(400).json({ message: "Deu ruim" });
+      return res.status(400).json({ message: error.message });
     }
   }
 
