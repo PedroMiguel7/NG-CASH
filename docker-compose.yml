@@ -1,38 +1,40 @@
+
 version: "3"
 services:
   postgres:
-    container_name: trybe_db
-    image: postgres:12.1
-    ports:
-      - "5432:5432"
+    image: "postgres:latest"
     environment:
-      - POSTGRES_USER=root
-      - POSTGRES_DB=root
-      - POSTGRES_PASSWORD=pass
-    volumes:
-      - ./postgresql/data:/var/lib/postgresql/data
-      - ./docker_postgres_init.sql:/docker-entrypoint-initdb.d/docker_postgres_init.sql
-  service:
-    container_name: server
+      - POSTGRES_PASSWORD=postgres_password
+  nginx:
+    depends_on:
+      - api
+      - client
+    restart: always
     build:
-      context: ./service
-      dockerfile: Dockerfile.dev  # on move to prod, update this
+      dockerfile: Dockerfile.dev
+      context: ./nginx
+    ports:
+      - "3050:80"
+  api:
+    build:
+      dockerfile: Dockerfile.dev
+      context: "./service"
     volumes:
       - /app/node_modules
-      - ./service/config:/app/config
-      - ./service/src:/app/src
-      - ./service/test:/app/test
-    ports:
-      - "3000:3000"
-  ui:
-    container_name: ui
+      - ./service:/app
+    environment:
+      - DB_USER=postgres
+      - DB_HOST=postgres
+      - DB_NAME=postgres
+      - DB_PASS=postgres_password
+      - DB_PORT=5432
+  client:
+    stdin_open: true
+    environment:
+      - CHOKIDAR_USEPOLLING=true
     build:
+      dockerfile: Dockerfile.dev
       context: ./ui
-      dockerfile: Dockerfile.dev  # on move to prod, update this
     volumes:
       - /app/node_modules
-      - ./ui/src:/app/src
-      - ./ui/public:/app/public
-      - ./ui/.env:/app/.env:ro
-    ports:
-      - "8080:8080"
+      - ./ui:/app
