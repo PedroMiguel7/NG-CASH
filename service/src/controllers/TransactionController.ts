@@ -39,7 +39,7 @@ export class TransactionController {
         return res.status(400).json({ message: "Account not exists" });
       }
 
-      if (accountIdOUT?.balance < value) {
+      if (accountIdOUT?.balance < value || value <= 0) {
         return res.status(400).json({ message: "Insufficient funds" });
       }
 
@@ -75,18 +75,22 @@ export class TransactionController {
       let orderParams: any = {};
       orderParams[String(order)] = desc === "false" ? "ASC" : "DESC";
 
+      const user = decodedToken.user;
+
+      const { account: _, ...usernew } = user;
+
       const Transactionsout = await TransactionRepository.find(
         filter || order || desc
           ? {
               where: {
-                debitedAccount: decodedToken.user,
+                debitedAccount: usernew,
               },
               relations: { creditedAccount: true },
               order: orderParams,
             }
           : {
               where: {
-                debitedAccount: decodedToken.user,
+                debitedAccount: usernew,
               },
               relations: { creditedAccount: true },
             }
@@ -96,14 +100,14 @@ export class TransactionController {
         filter || order || desc
           ? {
               where: {
-                creditedAccount: decodedToken.user,
+                creditedAccount: usernew,
               },
               relations: { debitedAccount: true },
               order: orderParams,
             }
           : {
               where: {
-                creditedAccount: decodedToken.user,
+                creditedAccount: usernew,
               },
               relations: { debitedAccount: true },
             }
