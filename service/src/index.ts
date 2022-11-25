@@ -23,9 +23,9 @@ AppDataSource.initialize().then(() => {
   // app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs));
   app.use(errorMiddleware);
 
-  return app.listen(process.env.port);
+  return app.listen(process.env.PORT || "5000");
 });
 
 const app = express();
 app.use(express.json());
-export const server = app.listen(8000);
+export const server = app.listen(5000);
