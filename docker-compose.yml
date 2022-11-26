@@ -28,6 +28,7 @@ services:
       - DB_NAME=postgres
       - DB_PASS=postgres_password
       - DB_PORT=5432
+      - JWT_PASS=nova_umahashsegura
   client:
     stdin_open: true
     environment:

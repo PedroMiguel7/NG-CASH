@@ -2,9 +2,13 @@
 
 Aplicação web fullstack, dockerizada, cujo objetivo seja possibilitar que usuários da NG consigam realizar transferências internas entre si.
 
-## <a href="https://github.com/PedroMiguel7/NG-CASH/tree/main/service">Backend</a>
 
-- **Backend**
+## RUN PROJECT AND USE
+
+- Run `sudo docker-compose up --build`
+- Browse `http://localhost:3050/`
+
+## <a href="https://github.com/PedroMiguel7/NG-CASH/tree/main/service">Backend</a>
 
   - **Stack Base**
     - Um servidor em Node.js utilizando Typescript;
@@ -54,8 +58,3 @@ Aplicação web fullstack, dockerizada, cujo objetivo seja possibilitar que usu�
       - Tabela com os detalhes de todas as transações que o usuário participou;
       - Mecanismo para filtrar a tabela por data de transação e/ou transações do tipo _cash-in_/_cash-out_;
       - Botão para realizar o _log-out._
-
-## RUN PROJECT AND USE
-
-- Run `sudo docker-compose up --build`
-- Browse `http://localhost:3050/`

@@ -51,7 +51,7 @@ const style = {
   p: 5,
   minWidth: "400px",
   width: "25vw",
-  height: "60vh",
+  height: "65vh",
 };
 
 export default function Signup() {

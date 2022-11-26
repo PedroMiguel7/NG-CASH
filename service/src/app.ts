@@ -23,7 +23,7 @@ AppDataSource.initialize().then(() => {
   // app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs));
   app.use(errorMiddleware);
 
-  return app.listen(process.env.PORT || "5000");
+  return app.listen(5000);
 });
 
 const app = express();

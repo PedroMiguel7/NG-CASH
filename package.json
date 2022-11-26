@@ -2,7 +2,7 @@
   "name": "TRYBE",
   "version": "1.0.0",
   "description": "Node-Postgres-React-app",
-  "main": "index.ts",
+  "main": "app.ts",
   "scripts": {
     "docker:build": "docker-compose -p {name} build",
     "docker:down": "docker-compose -p {name} down",
